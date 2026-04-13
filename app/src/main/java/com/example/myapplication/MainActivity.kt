@@ -438,7 +438,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun addDemoRoute57() {
         val demoPoints = listOf(
             GeoPoint(56.461537, 43.528394),
-            GeoPoint(56.465000, 43.535000)
+            GeoPoint(56.463536, 43.535606),
+            GeoPoint(56.463536, 43.535606),
+            GeoPoint(56.465881, 43.549596)
         )
         // Оборачиваем в список сегментов
         drawRouteLine(listOf(demoPoints), "57 (Демо)")
