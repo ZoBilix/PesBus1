@@ -433,18 +433,59 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         mapView.invalidate()
     }
+    private fun fetchRoadGeometry(points: List<GeoPoint>, callback: (List<GeoPoint>) -> Unit) {
+        val coordinates = points.joinToString(";") { "${it.longitude},${it.latitude}" }
+        val url = "https://router.project-osrm.org/route/v1/driving/$coordinates?overview=full&geometries=geojson"
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val client = OkHttpClient()
+                val request = Request.Builder().url(url).build()
+                client.newCall(request).execute().use { response ->
+                    val json = JSONObject(response.body?.string() ?: "")
+                    val routes = json.getJSONArray("routes")
+                    if (routes.length() > 0) {
+                        val geometry = routes.getJSONObject(0).getJSONObject("geometry")
+                        val coords = geometry.getJSONArray("coordinates")
+                        val roadPoints = mutableListOf<GeoPoint>()
+
+                        for (i in 0 until coords.length()) {
+                            val point = coords.getJSONArray(i)
+                            // В GeoJSON координаты идут [lon, lat]
+                            roadPoints.add(GeoPoint(point.getDouble(1), point.getDouble(0)))
+                        }
+
+                        launch(Dispatchers.Main) { callback(roadPoints) }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Если ошибка сервиса, рисуем как было (прямыми)
+                launch(Dispatchers.Main) { callback(points) }
+            }
+        }
+    }
 
     private fun addDemoRoute57() {
         val demoPoints = listOf(
             GeoPoint(56.461537, 43.528394),
             GeoPoint(56.463536, 43.535606),
-            GeoPoint(56.463536, 43.535606),
+            GeoPoint(56.465566, 43.541717),
             GeoPoint(56.465881, 43.549596)
         )
-        // Оборачиваем в список сегментов
-        drawRouteLine(listOf(demoPoints), "57 (Демо)")
+        fetchRoadGeometry(demoPoints) { roadFollowingPoints ->
+            // Теперь рисуем линию, которая повторяет дороги
+            drawRouteLine(listOf(roadFollowingPoints), "57")
+        val demoStops = listOf(
+            BusStop("d1", "Улица Горького", 56.461537, 43.528394, listOf("57", "10")),
+            BusStop("d2", "Площадь Свободы", 56.463536, 43.535606, listOf("57")),
+            BusStop("d3", "Парк Культуры", 56.465566, 43.541717, listOf("57", "3")),
+            BusStop("d4", "Конечная (Автовокзал)", 56.465881, 43.549596, listOf("57"))
+        )
+        displayStopsOnMap(demoStops)
+        mapView.controller.animateTo(demoPoints[0])
         Toast.makeText(this, "Показан тестовый маршрут", Toast.LENGTH_SHORT).show()
+    }
     }
 
     // ================= НАВИГАЦИЯ =================
