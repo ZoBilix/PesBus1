@@ -1,0 +1,8 @@
+<resources>
+
+    <!-- ✅ Добавьте эти две строки: -->
+    <string name="app_name">PesBus</string>
+    <string name="navigation_drawer_open">Открыть меню навигации</string>
+    <string name="navigation_drawer_close">Закрыть меню навигации</string>
+    <string name="verification_icon">Иконка подтверждения</string>
+</resources>
