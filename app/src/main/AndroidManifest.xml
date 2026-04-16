@@ -21,30 +21,30 @@
         android:usesCleartextTraffic="true"
         android:configChanges="uiMode">
 
-        <!-- ✅ MainActivity (главный экран) -->
+        <!-- 1. MainActivity теперь LAUNCHER (стартовый экран) -->
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyApplication"
-            android:windowBackground="@color/white"/>
-
-        <!-- ✅ LoginActivity (экран входа) -->
-        <activity
-            android:name=".LoginActivity"
+            android:name=".main.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.MyApplication">
+            android:theme="@style/Theme.MyApplication"
+            android:windowBackground="@color/white">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
+        <!-- 2. LoginActivity теперь обычный экран (удален intent-filter) -->
         <activity
-            android:name=".RegisterActivity"
+            android:name=".main.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyApplication" />
+
+        <activity
+            android:name=".main.RegisterActivity"
             android:exported="false"
             android:theme="@style/Theme.MyApplication"/>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".main.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.MyApplication"/>
         <activity

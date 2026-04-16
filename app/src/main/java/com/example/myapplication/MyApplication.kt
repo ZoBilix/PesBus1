@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.myapplication.main.SettingsManager
 import kotlinx.coroutines.runBlocking
 
 class MyApplication : Application() {
@@ -11,7 +12,6 @@ class MyApplication : Application() {
         runBlocking {
             try {
                 val theme = SettingsManager.getTheme(this@MyApplication)
-                // ✅ ИСПРАВЛЕНО: только theme, без this@MyApplication!
                 SettingsManager.applyTheme(theme)
             } catch (e: Exception) {
                 AppCompatDelegate.setDefaultNightMode(
