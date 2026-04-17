@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.*
 
 class StopRoutesBottomSheet(
     private val stop: BusStop,
@@ -35,13 +36,12 @@ class StopRoutesBottomSheet(
         val view = inflater.inflate(R.layout.dialog_schedule, container, false)
         val containerLayout = view.findViewById<LinearLayout>(R.id.schedule_buttons_container)
 
-        // Заголовок с названием остановки
         val header = TextView(requireContext()).apply {
             text = "Остановка: ${stop.name}"
             textSize = 18f
             setTextColor(Color.BLACK)
             gravity = android.view.Gravity.CENTER
-            setPadding(0, 0, 0, 20)
+            setPadding(0, 0, 0, 24)
         }
         containerLayout.addView(header, 0)
 
@@ -49,55 +49,56 @@ class StopRoutesBottomSheet(
         val allStops = loadStopsFromJson()
         val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
 
-        // Фильтруем расписания: только те, чей номер маршрута прописан у этой остановки
         val filteredSchedules = allSchedules.filter { schedule ->
             stop.routes?.contains(schedule.routeNumber) == true
         }
 
-        if (filteredSchedules.isEmpty()) {
-            val emptyText = TextView(requireContext()).apply {
-                text = "Маршруты не найдены"
-                gravity = android.view.Gravity.CENTER
-                setPadding(0, 50, 0, 50)
-            }
-            containerLayout.addView(emptyText)
-        }
-
         filteredSchedules.forEach { bus ->
-            // 1. Получаем список всех остановок для конкретного номера маршрута (из JSON)
-            val routeStops = allStops.filter { it.routes?.contains(bus.routeNumber) == true }
-            val stopIndex = routeStops.indexOfFirst { it.id == stop.id }
+            val stopIds = bus.stops ?: emptyList()
+            val stopIndex = stopIds.indexOf(stop.id)
 
             if (stopIndex != -1) {
-                // 2. Определяем направление.
-                // Если название маршрута начинается с имени ПОСЛЕДНЕЙ остановки в списке — значит едем обратно.
-                val lastStopName = routeStops.lastOrNull()?.name ?: ""
-                val isBackward = bus.routeName.startsWith(lastStopName, ignoreCase = true)
+                // 1. Получаем список названий всех остановок маршрута
+                val orderedStops = stopIds.mapNotNull { id -> allStops.find { it.id == id } }
 
-                // 3. Считаем задержку (индекс):
-                // Прямой путь: от 0 до конца.
-                // Обратный путь: от конца к 0.
-                val actualIndex = if (isBackward) {
-                    routeStops.size - 1 - stopIndex
-                } else {
-                    stopIndex
+                // ОПРЕДЕЛЯЕМ НАЧАЛО И КОНЕЦ
+                val startStopName = orderedStops.firstOrNull()?.name ?: "Начало"
+                val endStopName = orderedStops.lastOrNull()?.name ?: "Конец"
+                val isLastStop = stopIndex == stopIds.size - 1
+
+                // 2. Расчет расстояния и времени (как было ранее)
+                var totalDistanceKm = 0.0
+                for (i in 0 until stopIndex) {
+                    val s1 = orderedStops[i]
+                    val s2 = orderedStops[i+1]
+                    totalDistanceKm += calculateDistance(s1.latitude, s1.longitude, s2.latitude, s2.longitude)
                 }
 
-                val delayMinutes = actualIndex * 2 // 2 минуты на остановку
-
-                // 4. Применяем задержку к расписанию
+                val delayMinutes = (totalDistanceKm * 3.0 + stopIndex * 0.5).toInt()
                 val adjustedSchedule = bus.schedule.map { addMinutes(it, delayMinutes) }
-
-                // 5. Находим ближайший рейс
-                val nextTime = adjustedSchedule
+                val nextTimeRaw = adjustedSchedule
                     .filter { it >= currentTime }
                     .minOrNull() ?: adjustedSchedule.minOrNull() ?: "--:--"
 
-                // Создаем кнопку для каждого маршрута/направления
+                val displayInfo = if (nextTimeRaw != "--:--") {
+                    val diff = getMinutesUntil(currentTime, nextTimeRaw)
+                    val windowStart = addMinutes(nextTimeRaw, -2)
+                    val windowEnd = addMinutes(nextTimeRaw, 2)
+                    "~$windowStart - $windowEnd (через $diff мин)"
+                } else {
+                    "--:--"
+                }
+
                 val btn = MaterialButton(requireContext()).apply {
-                    // Текст: Номер, конечное направление и время
-                    val directionName = bus.routeName.split(" - ").lastOrNull() ?: ""
-                    text = "№${bus.routeNumber} до $directionName\nПрибудет в $nextTime"
+                    // ТЕКСТ: Номер маршрута и направление (Откуда -> Куда)
+                    val routeTitle = "№${bus.routeNumber}: $startStopName → $endStopName"
+
+                    if (isLastStop) {
+                        text = "$routeTitle\nКонечная остановка"
+                        alpha = 0.6f // Делаем кнопку полупрозрачной
+                    } else {
+                        text = "$routeTitle\nПрибытие: $displayInfo"
+                    }
 
                     setTextColor(ContextCompat.getColor(context, R.color.purple_500))
                     backgroundTintList = ColorStateList.valueOf(Color.WHITE)
@@ -105,21 +106,20 @@ class StopRoutesBottomSheet(
                     strokeWidth = (1 * resources.displayMetrics.density).toInt()
                     elevation = 0f
                     stateListAnimator = null
-                    setPadding(20, 30, 20, 30)
+                    setPadding(20, 32, 20, 32)
                     isAllCaps = false
 
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        setMargins(0, 12, 0, 12)
-                    }
+                    ).apply { setMargins(0, 12, 0, 12) }
 
                     setOnClickListener {
-                        val adjustedBus = bus.copy(schedule = adjustedSchedule)
-                        showTimeDialog(adjustedBus)
-                        onRouteSelected(bus.routeNumber)
-                        dismiss()
+                        if (!isLastStop) {
+                            showTimeDialog(bus.copy(schedule = adjustedSchedule))
+                            onRouteSelected(bus.routeNumber)
+                            dismiss()
+                        }
                     }
                 }
                 containerLayout.addView(btn)
@@ -128,31 +128,45 @@ class StopRoutesBottomSheet(
         return view
     }
 
+    // --- Вспомогательные методы (calculateDistance, addMinutes и т.д. остаются без изменений) ---
+    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val r = 6371.0
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = sin(dLat / 2).pow(2) + cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) * sin(dLon / 2).pow(2)
+        return 2 * r * atan2(sqrt(a), sqrt(1 - a))
+    }
+
+    private fun getMinutesUntil(current: String, target: String): Int {
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return try {
+            val d1 = sdf.parse(current)
+            val d2 = sdf.parse(target)
+            var diff = (d2.time - d1.time) / (1000 * 60)
+            if (diff < 0) diff += 1440
+            diff.toInt()
+        } catch (e: Exception) { 0 }
+    }
+
+    private fun addMinutes(time: String, minutes: Int): String {
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val cal = Calendar.getInstance()
+        return try {
+            cal.time = sdf.parse(time) ?: return time
+            cal.add(Calendar.MINUTE, minutes)
+            sdf.format(cal.time)
+        } catch (e: Exception) { time }
+    }
+
     private fun loadStopsFromJson(): List<BusStop> {
         return try {
             val jsonString = requireContext().assets.open("bus_stops.json").bufferedReader().use { it.readText() }
             val listType = object : TypeToken<List<BusStop>>() {}.type
             Gson().fromJson(jsonString, listType) ?: emptyList()
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }
-
-    private fun addMinutes(time: String, minutes: Int): String {
-        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val calendar = Calendar.getInstance()
-        return try {
-            val date = sdf.parse(time) ?: return time
-            calendar.time = date
-            calendar.add(Calendar.MINUTE, minutes)
-            sdf.format(calendar.time)
-        } catch (e: Exception) {
-            time
-        }
+        } catch (e: Exception) { emptyList() }
     }
 
     private fun showTimeDialog(bus: BusSchedule) {
-        val timesSheet = BusTimesBottomSheet(bus)
-        timesSheet.show(parentFragmentManager, "BusTimesBottomSheet")
+        BusTimesBottomSheet(bus).show(parentFragmentManager, "BusTimesBottomSheet")
     }
 }

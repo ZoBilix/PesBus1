@@ -217,7 +217,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun loadBusStopsOnMap() {
         lifecycleScope.launch {
             try {
-                // Загружаем остановки (в радиусе 10км от центра для теста)
                 BustimeManager.getNearbyStops(56.4615, 43.5283, 10000).onSuccess { stops ->
                     if (stops.isNotEmpty()) {
                         routeManager.displayStops(stops) // Используем метод из RouteManager
@@ -268,7 +267,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             snippet = "Точность: ${accuracy.toInt()} м"
 
             // Используем стандартную иконку или свою
-            icon = ContextCompat.getDrawable(this@MainActivity, org.osmdroid.library.R.drawable.ic_menu_mylocation)
+            icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_mark_map)
             icon?.setTint(ContextCompat.getColor(this@MainActivity, android.R.color.holo_blue_dark))
             setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         }
@@ -344,7 +343,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun showAboutDialog() {
         AlertDialog.Builder(this)
             .setTitle("О приложении")
-            .setMessage("🚌 BusMap\nВерсия: 1.0.0")
+            .setMessage("🚌 PesBus\nВерсия: 1.0.0")
             .setPositiveButton("OK", null)
             .show()
     }
