@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var locationCallback: LocationCallback
     private lateinit var busApiService: BusApiService
     private lateinit var routeManager: RouteManager
-    private var userLocationOverlay: FolderOverlay? = null // Добавьте это
+    private var userLocationOverlay: FolderOverlay? = null
     private var stopsOverlay: FolderOverlay? = null
     private var routeOverlay: FolderOverlay? = null
 
@@ -91,14 +91,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             stopsOverlay!!
         ) { stop ->
             val stopSheet = StopRoutesBottomSheet(stop) { routeNumber ->
-                // 1. Загружаем ВСЕ остановки из вашего JSON
                 val allStops = loadStopsFromJson()
-
-                // 2. Находим ВСЕ остановки, через которые проходит выбранный автобус
                 val routeStops = allStops.filter { it.routes?.contains(routeNumber) == true }
 
                 if (routeStops.isNotEmpty()) {
-                    // 3. Автоматически рисуем путь по этим точкам
                     routeManager.loadRouteWithStops(routeNumber, routeStops, lifecycleScope)
                 } else {
                     Toast.makeText(this, "Маршрут $routeNumber не найден в базе остановок", Toast.LENGTH_SHORT).show()
@@ -111,12 +107,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_main -> {
-                    loadBusStopsOnMap()
+                    // При нажатии на "Главная" очищаем маршруты и показываем все остановки
+                    routeOverlay?.items?.clear()
+                    loadAllStops()
+                    mapView.invalidate()
                     true
                 }
                 R.id.nav_schedule -> {
                     val scheduleSheet = ScheduleBottomSheet { routeNumber ->
-                        // ТА ЖЕ УНИВЕРСАЛЬНАЯ ЛОГИКА:
                         val allStops = loadStopsFromJson()
                         val routeStops = allStops.filter { it.routes.contains(routeNumber) }
 
@@ -145,36 +143,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         setupLocationCallback()
         requestLocationPermission()
-        loadBusStopsOnMap()
+        
         mapView.post {
             loadAllStops()
         }
     }
+    
     private fun loadAllStops() {
         val stops = loadStopsFromJson()
         if (stops.isNotEmpty()) {
             routeManager.displayStops(stops)
         } else {
-            // Если JSON пуст, пробуем загрузить из API (Nearby)
             loadBusStopsOnMap()
         }
     }
+    
     private fun showGeneralSchedule() {
         val scheduleSheet = ScheduleBottomSheet { routeNumber ->
-            // Загружаем все данные о расписаниях
             val allSchedules = ScheduleManager(this).loadSchedules()
-
-            // Ищем выбранный маршрут в списке
             val selectedBus = allSchedules.find { it.routeNumber == routeNumber }
 
             if (selectedBus != null) {
-                // Здесь должна быть логика получения точек (координат) для этого маршрута.
-                // Пока для примера используем RouteData, но в идеале координаты
-                // должны быть в JSON или подгружаться по номеру.
                 val stopsPoints = if (routeNumber == "57") {
                     RouteData.getRoute57Stops()
                 } else {
-                    // Если для других маршрутов пока нет координат, можно вывести уведомление
                     emptyList()
                 }
 
@@ -187,6 +179,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         scheduleSheet.show(supportFragmentManager, "ScheduleBottomSheet")
     }
+    
     private fun loadStopsFromJson(): List<BusStop> {
         return try {
             val jsonString = assets.open("bus_stops.json").bufferedReader().use { it.readText() }
@@ -203,7 +196,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mapView.setTileSource(TileSourceFactory.MAPNIK)
         mapView.setMultiTouchControls(true)
         mapView.controller.setZoom(15.0)
-        mapView.controller.setCenter(GeoPoint(56.4615, 43.5283)) // Центрируем на ваш район
+        mapView.controller.setCenter(GeoPoint(56.4615, 43.5283))
 
         stopsOverlay = FolderOverlay().apply { name = "Stops" }
         routeOverlay = FolderOverlay().apply { name = "Routes" }
@@ -219,7 +212,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             try {
                 BustimeManager.getNearbyStops(56.4615, 43.5283, 10000).onSuccess { stops ->
                     if (stops.isNotEmpty()) {
-                        routeManager.displayStops(stops) // Используем метод из RouteManager
+                        routeManager.displayStops(stops)
                     }
                 }
             } catch (e: Exception) {
@@ -254,33 +247,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // --- ГЕОЛОКАЦИЯ ---
     private fun updateMapToUserLocation(location: GeoPoint, accuracy: Float) {
         mapView.controller.animateTo(location)
-        mapView.controller.setZoom(16.0) // Раскомментируйте, если хотите авто-зум при каждом обновлении
-
         addUserLocationMarker(location, accuracy)
     }
+    
     private fun addUserLocationMarker(point: GeoPoint, accuracy: Float) {
-        userLocationOverlay?.items?.clear() // Удаляем старую метку перед добавлением новой
+        userLocationOverlay?.items?.clear()
 
         val marker = Marker(mapView).apply {
             position = point
             title = "Вы здесь"
             snippet = "Точность: ${accuracy.toInt()} м"
 
-            // Используем стандартную иконку или свою
             icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_mark_map)
             icon?.setTint(ContextCompat.getColor(this@MainActivity, android.R.color.holo_blue_dark))
             setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         }
 
         userLocationOverlay?.add(marker)
-        mapView.invalidate() // Перерисовать карту
+        mapView.invalidate()
     }
+    
     private fun setupLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
                     val userLocation = GeoPoint(location.latitude, location.longitude)
-                    // Вызываем метод, который и двигает карту, и рисует/обновляет маркер
                     updateMapToUserLocation(userLocation, location.accuracy)
                 }
             }
@@ -295,7 +286,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 LOCATION_PERMISSION_REQUEST_CODE
             )
         } else {
-            // Если разрешение уже есть, пробуем сразу найти пользователя
             moveToCurrentLocation()
         }
     }
@@ -305,8 +295,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
                     val userLocation = GeoPoint(it.latitude, it.longitude)
-                    // Вызываем updateMapToUserLocation вместо прямого управления mapView,
-                    // чтобы отрисовалась синяя иконка
                     updateMapToUserLocation(userLocation, it.accuracy)
                 } ?: run {
                     Toast.makeText(this, "Не удалось определить местоположение. Попробуйте включить GPS", Toast.LENGTH_SHORT).show()
