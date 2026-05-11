@@ -38,6 +38,7 @@ import org.osmdroid.views.overlay.FolderOverlay
 import org.osmdroid.views.overlay.Marker
 import com.google.gson.reflect.TypeToken
 import com.example.myapplication.routes.ScheduleManager
+import com.example.myapplication.network.BustiClient
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -53,19 +54,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var locationCallback: LocationCallback
     private lateinit var busApiService: BusApiService
     private lateinit var routeManager: RouteManager
+    private lateinit var bustiClient: BustiClient
+    
     private var userLocationOverlay: FolderOverlay? = null
     private var stopsOverlay: FolderOverlay? = null
     private var routeOverlay: FolderOverlay? = null
+    private var busesOverlay: FolderOverlay? = null
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val BASE_URL = "https://bus.api.pespes.online:8443/"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Настройка osmdroid
         Configuration.getInstance().load(
             applicationContext,
             getSharedPreferences("osmdroid", MODE_PRIVATE)
@@ -74,7 +76,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setContentView(R.layout.activity_main)
 
-        // 1. Инициализация View
         toolbar = findViewById(R.id.toolbar)
         mapView = findViewById(R.id.map)
         fabMyLocation = findViewById(R.id.fab_my_location)
@@ -82,13 +83,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setSupportActionBar(toolbar)
 
-        // 2. Настройка карты
         setupMap()
 
         routeManager = RouteManager(
             this,
-            mapView,routeOverlay!!,
-            stopsOverlay!!
+            mapView,
+            routeOverlay!!,
+            stopsOverlay!!,
+            busesOverlay!!
         ) { stop ->
             val stopSheet = StopRoutesBottomSheet(stop) { routeNumber ->
                 val allStops = loadStopsFromJson()
@@ -97,17 +99,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (routeStops.isNotEmpty()) {
                     routeManager.loadRouteWithStops(routeNumber, routeStops, lifecycleScope)
                 } else {
-                    Toast.makeText(this, "Маршрут $routeNumber не найден в базе остановок", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Маршрут $routeNumber не найден", Toast.LENGTH_SHORT).show()
                 }
             }
             stopSheet.show(supportFragmentManager, "StopRoutesBottomSheet")
         }
 
-        // 4. Нижняя навигация (Главная, Расписание, Профиль)
+        setupWebSocket()
+
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_main -> {
-                    // При нажатии на "Главная" очищаем маршруты и показываем все остановки
                     routeOverlay?.items?.clear()
                     loadAllStops()
                     mapView.invalidate()
@@ -117,7 +119,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     val scheduleSheet = ScheduleBottomSheet { routeNumber ->
                         val allStops = loadStopsFromJson()
                         val routeStops = allStops.filter { it.routes.contains(routeNumber) }
-
                         if (routeStops.isNotEmpty()) {
                             routeManager.loadRouteWithStops(routeNumber, routeStops, lifecycleScope)
                         }
@@ -134,12 +135,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        // 5. Кнопка геолокации
         fabMyLocation.setOnClickListener {
             moveToCurrentLocation()
         }
 
-        // 6. Запуск сервисов
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         setupLocationCallback()
         requestLocationPermission()
@@ -147,6 +146,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mapView.post {
             loadAllStops()
         }
+    }
+
+    private fun setupWebSocket() {
+        bustiClient = BustiClient(
+            onBusesUpdate = { buses ->
+                runOnUiThread {
+                    routeManager.updateBuses(buses)
+                }
+            },
+            onBusPosition = { bus ->
+                runOnUiThread {
+                    routeManager.updateBusMarker(bus)
+                    mapView.invalidate()
+                }
+            },
+            onConnectionStatus = { isConnected ->
+                runOnUiThread {
+                    val status = if (isConnected) "Подключено к GPS" else "GPS отключен"
+                    // Можно вывести лог или обновить UI статус
+                }
+            }
+        )
+        bustiClient.connect()
     }
     
     private fun loadAllStops() {
@@ -158,36 +180,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     
-    private fun showGeneralSchedule() {
-        val scheduleSheet = ScheduleBottomSheet { routeNumber ->
-            val allSchedules = ScheduleManager(this).loadSchedules()
-            val selectedBus = allSchedules.find { it.routeNumber == routeNumber }
-
-            if (selectedBus != null) {
-                val stopsPoints = if (routeNumber == "57") {
-                    RouteData.getRoute57Stops()
-                } else {
-                    emptyList()
-                }
-
-                if (stopsPoints.isNotEmpty()) {
-                    routeManager.loadRouteWithStops(routeNumber, stopsPoints, lifecycleScope)
-                } else {
-                    Toast.makeText(this, "Путь для маршрута $routeNumber еще не настроен", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-        scheduleSheet.show(supportFragmentManager, "ScheduleBottomSheet")
-    }
-    
     private fun loadStopsFromJson(): List<BusStop> {
         return try {
             val jsonString = assets.open("bus_stops.json").bufferedReader().use { it.readText() }
             val listType = object : TypeToken<List<BusStop>>() {}.type
-
             Gson().fromJson(jsonString, listType) ?: emptyList()
         } catch (e: Exception) {
-            e.printStackTrace()
             emptyList()
         }
     }
@@ -201,9 +199,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         stopsOverlay = FolderOverlay().apply { name = "Stops" }
         routeOverlay = FolderOverlay().apply { name = "Routes" }
         userLocationOverlay = FolderOverlay().apply { name = "UserLocation" }
+        busesOverlay = FolderOverlay().apply { name = "Buses" }
 
         mapView.overlays.add(routeOverlay)
         mapView.overlays.add(stopsOverlay)
+        mapView.overlays.add(busesOverlay)
         mapView.overlays.add(userLocationOverlay)
     }
 
@@ -221,16 +221,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-
-    private fun showStopInfo(stop: BusStop) {
-        val routesText = if (stop.routes.isNotEmpty()) stop.routes.joinToString(", ") else "Нет данных"
-        AlertDialog.Builder(this)
-            .setTitle(stop.name)
-            .setMessage("Маршруты: $routesText")
-            .setPositiveButton("OK", null)
-            .show()
-    }
-
     private fun showProfileDialog(username: String) {
         AlertDialog.Builder(this)
             .setTitle("Профиль")
@@ -243,8 +233,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .show()
     }
 
-
-    // --- ГЕОЛОКАЦИЯ ---
     private fun updateMapToUserLocation(location: GeoPoint, accuracy: Float) {
         mapView.controller.animateTo(location)
         addUserLocationMarker(location, accuracy)
@@ -252,17 +240,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     
     private fun addUserLocationMarker(point: GeoPoint, accuracy: Float) {
         userLocationOverlay?.items?.clear()
-
         val marker = Marker(mapView).apply {
             position = point
             title = "Вы здесь"
-            snippet = "Точность: ${accuracy.toInt()} м"
-
             icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_mark_map)
             icon?.setTint(ContextCompat.getColor(this@MainActivity, android.R.color.holo_blue_dark))
             setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         }
-
         userLocationOverlay?.add(marker)
         mapView.invalidate()
     }
@@ -296,43 +280,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 location?.let {
                     val userLocation = GeoPoint(it.latitude, it.longitude)
                     updateMapToUserLocation(userLocation, it.accuracy)
-                } ?: run {
-                    Toast.makeText(this, "Не удалось определить местоположение. Попробуйте включить GPS", Toast.LENGTH_SHORT).show()
                 }
             }
-        } else {
-            requestLocationPermission()
         }
-    }
-
-    private fun checkAuthStatus() {
-        val username = TokenManager.getUsername(this)
-        navUsername.text = username ?: "Гость"
-        navEmail.text = if (username != null) "Авторизован" else "Войдите в аккаунт"
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_stops -> loadBusStopsOnMap()
-            R.id.nav_logout -> {
-                TokenManager.clearToken(this)
-                checkAuthStatus()
-            }
-            R.id.nav_help -> showAboutDialog()
-        }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
     override fun onResume() { super.onResume(); mapView.onResume() }
     override fun onPause() { super.onPause(); mapView.onPause() }
-    override fun onDestroy() { super.onDestroy(); mapView.onDetach() }
-
-    private fun showAboutDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("О приложении")
-            .setMessage("🚌 PesBus\nВерсия: 1.0.0")
-            .setPositiveButton("OK", null)
-            .show()
+    override fun onDestroy() { 
+        super.onDestroy()
+        bustiClient.disconnect()
+        mapView.onDetach() 
     }
 }

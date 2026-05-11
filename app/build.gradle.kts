@@ -65,10 +65,11 @@ dependencies {
     // Geolocation
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
+    // WebSocket (Socket.io) - Downgraded to 1.0.0 for stable Protocol v2 support
+    implementation("io.socket:socket.io-client:1.0.0")
+
     // Тесты
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-
 }
