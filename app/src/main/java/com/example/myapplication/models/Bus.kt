@@ -3,10 +3,10 @@ package com.example.myapplication.models
 import com.google.gson.annotations.SerializedName
 
 data class Bus(
-    @SerializedName("id", alternate = ["i", "bus_id", "u"]) 
+    @SerializedName("board_uid", alternate = ["id", "i", "bus_id", "u"]) 
     val id: String,
     
-    @SerializedName("route_id", alternate = ["r", "route_name", "r_id"]) 
+    @SerializedName("inner_id", alternate = ["route_id", "r", "route_name", "r_id"]) 
     val routeId: String,
     
     @SerializedName("lat", alternate = ["y", "latitude"]) 
@@ -21,6 +21,6 @@ data class Bus(
     @SerializedName("heading", alternate = ["h", "angle"])
     val heading: Float = 0f,
 
-    @SerializedName("last_update", alternate = ["t", "time", "ts"]) 
+    @SerializedName("timestamp", alternate = ["last_update", "t", "time", "ts"]) 
     val lastUpdate: Long = 0L
 )

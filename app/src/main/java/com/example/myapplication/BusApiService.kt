@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import com.example.myapplication.models.Bus
 import retrofit2.http.*
 
 interface BusApiService {
@@ -51,4 +52,7 @@ interface BusApiService {
 
     @POST("resend-code")
     suspend fun resendCode(@Body request: ResendCodeRequest): ResendCodeResponse
+
+    @GET
+    suspend fun getBuses(@Url url: String): List<Bus>
 }

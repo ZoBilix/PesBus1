@@ -29,6 +29,8 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -39,6 +41,9 @@ import org.osmdroid.views.overlay.Marker
 import com.google.gson.reflect.TypeToken
 import com.example.myapplication.routes.ScheduleManager
 import com.example.myapplication.network.BustiClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import com.example.myapplication.main.BusTimesBottomSheet
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -60,9 +65,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var stopsOverlay: FolderOverlay? = null
     private var routeOverlay: FolderOverlay? = null
     private var busesOverlay: FolderOverlay? = null
+    
+    private var busUpdateJob: Job? = null
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+        private const val BUS_API_URL = "http://144.31.253.20:3000/api/buses"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,27 +92,46 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         setupMap()
+        
+        // Инициализация API сервиса
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://144.31.253.20:3000/") 
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        busApiService = retrofit.create(BusApiService::class.java)
 
         routeManager = RouteManager(
-            this,
-            mapView,
-            routeOverlay!!,
-            stopsOverlay!!,
-            busesOverlay!!
-        ) { stop ->
-            val stopSheet = StopRoutesBottomSheet(stop) { routeNumber ->
-                val allStops = loadStopsFromJson()
-                val routeStops = allStops.filter { it.routes?.contains(routeNumber) == true }
+            context = this,
+            mapView = mapView,
+            routeOverlay = routeOverlay!!,
+            stopsOverlay = stopsOverlay!!,
+            busesOverlay = busesOverlay!!,
+            onBusClick = { routeNumber ->
+                // При клике на автобус показываем расписание
+                showScheduleForRoute(routeNumber)
+            },
+            onStopClick = { stop ->
+                val stopSheet = StopRoutesBottomSheet(stop) { routeNumber ->
+                    val allStops = loadStopsFromJson()
+                    val routeStops = allStops.filter { it.routes?.contains(routeNumber) == true }
 
-                if (routeStops.isNotEmpty()) {
-                    routeManager.loadRouteWithStops(routeNumber, routeStops, lifecycleScope)
-                } else {
-                    Toast.makeText(this, "Маршрут $routeNumber не найден", Toast.LENGTH_SHORT).show()
+                    if (routeStops.isNotEmpty()) {
+                        routeManager.loadRouteWithStops(routeNumber, routeStops, lifecycleScope)
+                    } else {
+                        Toast.makeText(this, "Маршрут $routeNumber не найден", Toast.LENGTH_SHORT).show()
+                    }
                 }
+                stopSheet.show(supportFragmentManager, "StopRoutesBottomSheet")
             }
-            stopSheet.show(supportFragmentManager, "StopRoutesBottomSheet")
-        }
+        )
 
+        // Загрузка маппинга из JSON
+        val routeMapping = loadRouteMapping()
+        routeManager.setRouteMapping(routeMapping)
+
+        // Запуск периодического обновления автобусов
+        startBusUpdates()
+        
         setupWebSocket()
 
         bottomNav.setOnItemSelectedListener { item ->
@@ -148,6 +175,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun loadRouteMapping(): Map<String, String> {
+        return try {
+            val jsonString = assets.open("route_mapping.json").bufferedReader().use { it.readText() }
+            val mapType = object : TypeToken<Map<String, String>>() {}.type
+            Gson().fromJson(jsonString, mapType) ?: emptyMap()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyMap()
+        }
+    }
+
+    private fun showScheduleForRoute(routeNumber: String) {
+        val schedules = ScheduleManager(this).loadSchedules()
+        val busSchedule = schedules.find { it.routeNumber == routeNumber }
+        
+        if (busSchedule != null) {
+            val timesSheet = BusTimesBottomSheet(busSchedule)
+            timesSheet.show(supportFragmentManager, "BusTimesBottomSheet")
+        } else {
+            Toast.makeText(this, "Расписание для маршрута №$routeNumber не найдено", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun startBusUpdates() {
+        busUpdateJob?.cancel()
+        busUpdateJob = lifecycleScope.launch {
+            while (true) {
+                try {
+                    val buses = busApiService.getBuses(BUS_API_URL)
+                    routeManager.updateBuses(buses)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                delay(5000) // Обновление каждые 5 секунд
+            }
+        }
+    }
+
     private fun setupWebSocket() {
         bustiClient = BustiClient(
             onBusesUpdate = { buses ->
@@ -164,7 +229,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             onConnectionStatus = { isConnected ->
                 runOnUiThread {
                     val status = if (isConnected) "Подключено к GPS" else "GPS отключен"
-                    // Можно вывести лог или обновить UI статус
                 }
             }
         )
@@ -286,7 +350,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
@@ -294,6 +357,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onPause() { super.onPause(); mapView.onPause() }
     override fun onDestroy() { 
         super.onDestroy()
+        busUpdateJob?.cancel()
         bustiClient.disconnect()
         mapView.onDetach() 
     }
