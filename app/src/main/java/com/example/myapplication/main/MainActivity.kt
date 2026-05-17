@@ -21,6 +21,7 @@ import com.example.myapplication.R
 import com.example.myapplication.TokenManager
 import com.example.myapplication.routes.RouteData
 import com.example.myapplication.routes.RouteManager
+import com.example.myapplication.routes.RouteMappingInfo
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -93,7 +94,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setupMap()
         
-        // Инициализация API сервиса
         val retrofit = Retrofit.Builder()
             .baseUrl("http://144.31.253.20:3000/") 
             .addConverterFactory(GsonConverterFactory.create())
@@ -106,19 +106,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             routeOverlay = routeOverlay!!,
             stopsOverlay = stopsOverlay!!,
             busesOverlay = busesOverlay!!,
-            onBusClick = { routeNumber ->
-                // При клике на автобус показываем расписание
-                showScheduleForRoute(routeNumber)
+            onBusClick = { techId, routeInfo ->
+                // 1. Показываем расписание именно для этого города/маршрута
+                showScheduleForRoute(routeInfo)
+                // 2. Загружаем и рисуем линию маршрута + фильтруем только этот автобус
+                routeManager.loadBustiRoute(techId, routeInfo.display, lifecycleScope)
             },
             onStopClick = { stop ->
                 val stopSheet = StopRoutesBottomSheet(stop) { routeNumber ->
-                    val allStops = loadStopsFromJson()
-                    val routeStops = allStops.filter { it.routes?.contains(routeNumber) == true }
-
-                    if (routeStops.isNotEmpty()) {
-                        routeManager.loadRouteWithStops(routeNumber, routeStops, lifecycleScope)
-                    } else {
-                        Toast.makeText(this, "Маршрут $routeNumber не найден", Toast.LENGTH_SHORT).show()
+                    // Поиск techId по отображаемому номеру для загрузки линии
+                    val mapping = loadRouteMapping()
+                    val techId = mapping.entries.find { it.value.display == routeNumber }?.key
+                    if (techId != null) {
+                        routeManager.loadBustiRoute(techId, routeNumber, lifecycleScope)
                     }
                 }
                 stopSheet.show(supportFragmentManager, "StopRoutesBottomSheet")
@@ -129,14 +129,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val routeMapping = loadRouteMapping()
         routeManager.setRouteMapping(routeMapping)
 
-        // Запуск периодического обновления автобусов
         startBusUpdates()
-        
         setupWebSocket()
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_main -> {
+                    // СБРОС ФИЛЬТРОВ: показываем все автобусы и все остановки снова
+                    routeManager.selectRoute(null)
                     routeOverlay?.items?.clear()
                     loadAllStops()
                     mapView.invalidate()
@@ -144,10 +144,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
                 R.id.nav_schedule -> {
                     val scheduleSheet = ScheduleBottomSheet { routeNumber ->
-                        val allStops = loadStopsFromJson()
-                        val routeStops = allStops.filter { it.routes.contains(routeNumber) }
-                        if (routeStops.isNotEmpty()) {
-                            routeManager.loadRouteWithStops(routeNumber, routeStops, lifecycleScope)
+                        val mapping = loadRouteMapping()
+                        val techId = mapping.entries.find { it.value.display == routeNumber }?.key
+                        if (techId != null) {
+                            routeManager.loadBustiRoute(techId, routeNumber, lifecycleScope)
                         }
                     }
                     scheduleSheet.show(supportFragmentManager, "ScheduleBottomSheet")
@@ -175,10 +175,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun loadRouteMapping(): Map<String, String> {
+    private fun loadRouteMapping(): Map<String, RouteMappingInfo> {
         return try {
             val jsonString = assets.open("route_mapping.json").bufferedReader().use { it.readText() }
-            val mapType = object : TypeToken<Map<String, String>>() {}.type
+            val mapType = object : TypeToken<Map<String, RouteMappingInfo>>() {}.type
             Gson().fromJson(jsonString, mapType) ?: emptyMap()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -186,15 +186,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun showScheduleForRoute(routeNumber: String) {
+    private fun showScheduleForRoute(info: RouteMappingInfo) {
         val schedules = ScheduleManager(this).loadSchedules()
-        val busSchedule = schedules.find { it.routeNumber == routeNumber }
+        // Ищем по полному названию маршрута, чтобы избежать дубликатов в разных городах
+        val busSchedule = schedules.find { 
+            it.routeNumber == info.display && it.routeName == info.name 
+        }
         
         if (busSchedule != null) {
             val timesSheet = BusTimesBottomSheet(busSchedule)
             timesSheet.show(supportFragmentManager, "BusTimesBottomSheet")
         } else {
-            Toast.makeText(this, "Расписание для маршрута №$routeNumber не найдено", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Расписание для маршрута ${info.name} не найдено", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -208,7 +211,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                delay(5000) // Обновление каждые 5 секунд
+                delay(5000) 
             }
         }
     }
