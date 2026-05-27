@@ -100,9 +100,10 @@ class StopRoutesBottomSheet(
                         text = "$routeTitle\nПрибытие: $displayInfo"
                     }
 
-                    setTextColor(ContextCompat.getColor(context, R.color.purple_500))
+                    // Используем синий цвет (blue) вместо фиолетового
+                    setTextColor(ContextCompat.getColor(context, R.color.blue))
                     backgroundTintList = ColorStateList.valueOf(Color.WHITE)
-                    strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.purple_500))
+                    strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.blue))
                     strokeWidth = (1 * resources.displayMetrics.density).toInt()
                     elevation = 0f
                     stateListAnimator = null

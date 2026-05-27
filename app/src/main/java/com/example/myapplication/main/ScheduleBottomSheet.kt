@@ -30,16 +30,16 @@ class ScheduleBottomSheet(private val onRouteSelected: (String) -> Unit) : Botto
         val schedules = ScheduleManager(requireContext()).loadSchedules()
 
         schedules.forEach { bus ->
-            // Создаем MaterialButton программно, чтобы соответствовать стилю "Закрыть"
+            // Создаем MaterialButton программно
             val btn = MaterialButton(requireContext()).apply {
                 text = "Маршрут №${bus.routeNumber}\n${bus.routeName}"
 
-                // Настройка внешнего вида (как в dialog_bus_times)
-                setTextColor(ContextCompat.getColor(context, R.color.purple_500))
+                // Настройка внешнего вида: используем синий цвет (blue) вместо фиолетового
+                setTextColor(ContextCompat.getColor(context, R.color.blue))
                 backgroundTintList = ColorStateList.valueOf(Color.WHITE)
 
-                // Обводка
-                strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.purple_500))
+                // Обводка синим цветом
+                strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.blue))
                 strokeWidth = (1 * resources.displayMetrics.density).toInt()
 
                 // Убираем тень (Unelevated)

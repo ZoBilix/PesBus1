@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import com.example.myapplication.models.Bus
+import com.example.myapplication.models.BustimeCityDb
 import retrofit2.http.*
 
 interface BusApiService {
@@ -55,4 +56,7 @@ interface BusApiService {
 
     @GET
     suspend fun getBuses(@Url url: String): List<Bus>
+
+    @GET
+    suspend fun getCityDb(@Url url: String): BustimeCityDb
 }

@@ -46,7 +46,8 @@ class BusTimesBottomSheet(private val bus: BusSchedule) : BottomSheetDialogFragm
                 if (time >= currentTime && sortedSchedule.firstOrNull { it >= currentTime } == time) {
                     setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
                 } else {
-                    setTextColor(ContextCompat.getColor(context, R.color.purple_500))
+                    // Используем синий цвет вместо фиолетового
+                    setTextColor(ContextCompat.getColor(context, R.color.blue))
                 }
 
                 background = ContextCompat.getDrawable(context, R.drawable.bg_time_chip)

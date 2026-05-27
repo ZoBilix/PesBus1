@@ -1,17 +1,20 @@
 package com.example.myapplication.main
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import com.google.gson.Gson
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.BusApiService
@@ -19,7 +22,6 @@ import com.example.myapplication.BusStop
 import com.example.myapplication.BustimeManager
 import com.example.myapplication.R
 import com.example.myapplication.TokenManager
-import com.example.myapplication.routes.RouteData
 import com.example.myapplication.routes.RouteManager
 import com.example.myapplication.routes.RouteMappingInfo
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -45,6 +47,13 @@ import com.example.myapplication.network.BustiClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.myapplication.main.BusTimesBottomSheet
+import com.example.myapplication.search.SearchManager
+import com.example.myapplication.help.HelpManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.osmdroid.events.MapListener
+import org.osmdroid.events.ScrollEvent
+import org.osmdroid.events.ZoomEvent
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -62,25 +71,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var routeManager: RouteManager
     private lateinit var bustiClient: BustiClient
     
+    private lateinit var searchManager: SearchManager
+    private lateinit var helpManager: HelpManager
+    
     private var userLocationOverlay: FolderOverlay? = null
     private var stopsOverlay: FolderOverlay? = null
     private var routeOverlay: FolderOverlay? = null
     private var busesOverlay: FolderOverlay? = null
     
     private var busUpdateJob: Job? = null
+    private var allStopsList: List<BusStop> = emptyList()
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val BUS_API_URL = "http://144.31.253.20:3000/api/buses"
+        private const val BUS_API_URL = "https://top4023177375.mwscdn.ru/api/buses"
+        private const val CITY_DB_URL = "https://sel.bustm.net/static/other/db/v8-mini/58-12.json"
+        private const val MIN_ZOOM_FOR_STOPS = 14.0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Configuration.getInstance().load(
-            applicationContext,
-            getSharedPreferences("osmdroid", MODE_PRIVATE)
-        )
+        Configuration.getInstance().load(applicationContext, getSharedPreferences("osmdroid", MODE_PRIVATE))
         Configuration.getInstance().userAgentValue = packageName
 
         setContentView(R.layout.activity_main)
@@ -91,11 +103,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNav = findViewById(R.id.bottom_navigation)
 
         setSupportActionBar(toolbar)
-
         setupMap()
         
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://144.31.253.20:3000/") 
+            .baseUrl("https://top4023177375.mwscdn.ru/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         busApiService = retrofit.create(BusApiService::class.java)
@@ -107,14 +118,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             stopsOverlay = stopsOverlay!!,
             busesOverlay = busesOverlay!!,
             onBusClick = { techId, routeInfo ->
-                // 1. Показываем расписание именно для этого города/маршрута
                 showScheduleForRoute(routeInfo)
-                // 2. Загружаем и рисуем линию маршрута + фильтруем только этот автобус
                 routeManager.loadBustiRoute(techId, routeInfo.display, lifecycleScope)
             },
             onStopClick = { stop ->
                 val stopSheet = StopRoutesBottomSheet(stop) { routeNumber ->
-                    // Поиск techId по отображаемому номеру для загрузки линии
                     val mapping = loadRouteMapping()
                     val techId = mapping.entries.find { it.value.display == routeNumber }?.key
                     if (techId != null) {
@@ -125,17 +133,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         )
 
-        // Загрузка маппинга из JSON
-        val routeMapping = loadRouteMapping()
-        routeManager.setRouteMapping(routeMapping)
+        // Инициализация менеджеров
+        searchManager = SearchManager(
+            context = this,
+            routeManager = routeManager,
+            mapView = mapView,
+            scope = lifecycleScope,
+            allStops = { allStopsList },
+            routeMapping = { loadRouteMapping() },
+            currentBuses = { routeManager.getAllBuses() }
+        )
+        helpManager = HelpManager(this)
 
+        routeManager.setRouteMapping(loadRouteMapping())
+        loadCityDatabase()
         startBusUpdates()
         setupWebSocket()
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_main -> {
-                    // СБРОС ФИЛЬТРОВ: показываем все автобусы и все остановки снова
                     routeManager.selectRoute(null)
                     routeOverlay?.items?.clear()
                     loadAllStops()
@@ -154,24 +171,52 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     true
                 }
                 R.id.nav_profile -> {
-                    val username = TokenManager.getUsername(this) ?: "Гость"
-                    showProfileDialog(username)
+                    ProfileBottomSheet().show(supportFragmentManager, "ProfileBottomSheet")
                     true
                 }
                 else -> false
             }
         }
 
-        fabMyLocation.setOnClickListener {
-            moveToCurrentLocation()
-        }
+        fabMyLocation.setOnClickListener { moveToCurrentLocation() }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         setupLocationCallback()
         requestLocationPermission()
         
-        mapView.post {
-            loadAllStops()
+        mapView.post { loadAllStops() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_toolbar_menu, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as? SearchView
+        if (searchView != null) {
+            searchManager.setupSearchView(searchView)
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_help -> {
+                helpManager.showInstruction()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun loadCityDatabase() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val db = busApiService.getCityDb(CITY_DB_URL)
+                withContext(Dispatchers.Main) {
+                    routeManager.setCityDb(db)
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error loading city database: ${e.message}")
+            }
         }
     }
 
@@ -180,24 +225,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val jsonString = assets.open("route_mapping.json").bufferedReader().use { it.readText() }
             val mapType = object : TypeToken<Map<String, RouteMappingInfo>>() {}.type
             Gson().fromJson(jsonString, mapType) ?: emptyMap()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emptyMap()
-        }
+        } catch (e: Exception) { emptyMap() }
     }
 
     private fun showScheduleForRoute(info: RouteMappingInfo) {
-        val schedules = ScheduleManager(this).loadSchedules()
-        // Ищем по полному названию маршрута, чтобы избежать дубликатов в разных городах
-        val busSchedule = schedules.find { 
+        val busSchedule = ScheduleManager(this).loadSchedules().find { 
             it.routeNumber == info.display && it.routeName == info.name 
         }
-        
         if (busSchedule != null) {
-            val timesSheet = BusTimesBottomSheet(busSchedule)
-            timesSheet.show(supportFragmentManager, "BusTimesBottomSheet")
-        } else {
-            Toast.makeText(this, "Расписание для маршрута ${info.name} не найдено", Toast.LENGTH_SHORT).show()
+            BusTimesBottomSheet(busSchedule).show(supportFragmentManager, "BusTimesBottomSheet")
         }
     }
 
@@ -208,9 +244,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 try {
                     val buses = busApiService.getBuses(BUS_API_URL)
                     routeManager.updateBuses(buses)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                } catch (e: Exception) { }
                 delay(5000) 
             }
         }
@@ -218,43 +252,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun setupWebSocket() {
         bustiClient = BustiClient(
-            onBusesUpdate = { buses ->
-                runOnUiThread {
-                    routeManager.updateBuses(buses)
-                }
-            },
-            onBusPosition = { bus ->
-                runOnUiThread {
-                    routeManager.updateBusMarker(bus)
-                    mapView.invalidate()
-                }
-            },
-            onConnectionStatus = { isConnected ->
-                runOnUiThread {
-                    val status = if (isConnected) "Подключено к GPS" else "GPS отключен"
-                }
-            }
+            onBusesUpdate = { buses -> runOnUiThread { routeManager.updateBuses(buses) } },
+            onBusPosition = { bus -> runOnUiThread { routeManager.updateBusMarker(bus); mapView.invalidate() } },
+            onConnectionStatus = { }
         )
         bustiClient.connect()
     }
     
     private fun loadAllStops() {
-        val stops = loadStopsFromJson()
-        if (stops.isNotEmpty()) {
-            routeManager.displayStops(stops)
+        allStopsList = loadStopsFromJson()
+        if (allStopsList.isNotEmpty()) {
+            routeManager.displayStops(allStopsList)
         } else {
             loadBusStopsOnMap()
         }
+        updateStopsVisibility()
     }
     
     private fun loadStopsFromJson(): List<BusStop> {
         return try {
             val jsonString = assets.open("bus_stops.json").bufferedReader().use { it.readText() }
-            val listType = object : TypeToken<List<BusStop>>() {}.type
-            Gson().fromJson(jsonString, listType) ?: emptyList()
-        } catch (e: Exception) {
-            emptyList()
-        }
+            Gson().fromJson(jsonString, object : TypeToken<List<BusStop>>() {}.type) ?: emptyList()
+        } catch (e: Exception) { emptyList() }
     }
 
     private fun setupMap() {
@@ -272,39 +291,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mapView.overlays.add(stopsOverlay)
         mapView.overlays.add(busesOverlay)
         mapView.overlays.add(userLocationOverlay)
+
+        mapView.addMapListener(object : MapListener {
+            override fun onScroll(event: ScrollEvent?): Boolean = false
+            override fun onZoom(event: ZoomEvent?): Boolean {
+                updateStopsVisibility()
+                return true
+            }
+        })
+    }
+
+    private fun updateStopsVisibility() {
+        val currentZoom = mapView.zoomLevelDouble
+        stopsOverlay?.isEnabled = currentZoom >= MIN_ZOOM_FOR_STOPS
+        mapView.invalidate()
     }
 
     private fun loadBusStopsOnMap() {
         lifecycleScope.launch {
-            try {
-                BustimeManager.getNearbyStops(56.4615, 43.5283, 10000).onSuccess { stops ->
-                    if (stops.isNotEmpty()) {
-                        routeManager.displayStops(stops)
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+            BustimeManager.getNearbyStops(56.4615, 43.5283, 10000).onSuccess { stops ->
+                allStopsList = stops
+                if (stops.isNotEmpty()) routeManager.displayStops(stops)
+                updateStopsVisibility()
             }
         }
     }
 
-    private fun showProfileDialog(username: String) {
-        AlertDialog.Builder(this)
-            .setTitle("Профиль")
-            .setMessage("Вы вошли как: $username")
-            .setPositiveButton("Выход") { _, _ ->
-                TokenManager.clearToken(this)
-                Toast.makeText(this, "Вы вышли", Toast.LENGTH_SHORT).show()
+    private fun moveToCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                location?.let {
+                    val userLocation = GeoPoint(it.latitude, it.longitude)
+                    mapView.controller.animateTo(userLocation)
+                    addUserLocationMarker(userLocation, it.accuracy)
+                }
             }
-            .setNegativeButton("Закрыть", null)
-            .show()
+        }
     }
 
-    private fun updateMapToUserLocation(location: GeoPoint, accuracy: Float) {
-        mapView.controller.animateTo(location)
-        addUserLocationMarker(location, accuracy)
-    }
-    
     private fun addUserLocationMarker(point: GeoPoint, accuracy: Float) {
         userLocationOverlay?.items?.clear()
         val marker = Marker(mapView).apply {
@@ -323,7 +347,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
                     val userLocation = GeoPoint(location.latitude, location.longitude)
-                    updateMapToUserLocation(userLocation, location.accuracy)
+                    addUserLocationMarker(userLocation, location.accuracy)
                 }
             }
         }
@@ -331,31 +355,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun requestLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
-        } else {
-            moveToCurrentLocation()
-        }
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        } else { moveToCurrentLocation() }
     }
 
-    private fun moveToCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                location?.let {
-                    val userLocation = GeoPoint(it.latitude, it.longitude)
-                    updateMapToUserLocation(userLocation, it.accuracy)
-                }
-            }
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return true
-    }
-
+    override fun onNavigationItemSelected(item: MenuItem): Boolean = true
     override fun onResume() { super.onResume(); mapView.onResume() }
     override fun onPause() { super.onPause(); mapView.onPause() }
     override fun onDestroy() { 
