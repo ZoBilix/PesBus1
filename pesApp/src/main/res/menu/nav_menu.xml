@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Основные -->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Главная"/>
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_map"
+            android:title="Карта"/>
+        <item
+            android:id="@+id/nav_routes"
+            android:icon="@drawable/ic_route"
+            android:title="Маршруты"/>
+        <item
+            android:id="@+id/nav_stops"
+            android:icon="@drawable/ic_map"
+            android:title="Остановки"/>
+    </group>
+
+    <!-- Аккаунт -->
+    <item android:title="АККАУНТ">
+        <menu>
+            <item
+                android:id="@+id/nav_route_57"
+                android:icon="@drawable/ic_bus"
+                android:title="🚌 Маршрут 57"/>
+
+            <item
+                android:id="@+id/nav_login"
+                android:icon="@drawable/ic_login"
+                android:title="Войти"/>
+            <item
+                android:id="@+id/nav_register"
+                android:icon="@drawable/ic_register"
+                android:title="Регистрация"/>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_profile"
+                android:title="Профиль"
+                android:visible="false"/>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Выйти"
+                android:visible="false"/>
+        </menu>
+    </item>
+
+    <!-- Дополнительно -->
+    <item android:title="ДОПОЛНИТЕЛЬНО">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="Настройки"/>
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@drawable/ic_help"
+                android:title="Помощь"/>
+        </menu>
+    </item>
+    <!-- Администрирование -->
+    <item android:title="АДМИНИСТРИРОВАНИЕ" android:id="@+id/nav_admin_group">
+        <menu>
+            <item
+                android:id="@+id/nav_admin_schedules"
+                android:icon="@drawable/ic_route"
+                android:title="Расписание"/>
+            <item
+                android:id="@+id/nav_admin_add_schedule"
+                android:icon="@drawable/ic_register"
+                android:title="Добавить маршрут"/>
+        </menu>
+    </item>
+</menu>
