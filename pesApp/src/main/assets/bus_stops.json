@@ -4319,24 +4319,10 @@
     "routes": ["58"]
   },
   {
-    "id": "stop_618",
-    "name": "Детская поликлиника (Балахна)",
-    "latitude": 56.48834,
-    "longitude": 43.601225,
-    "routes": ["58"]
-  },
-  {
     "id": "stop_619",
     "name": "Школа 6 (Балахна)",
     "latitude": 56.4913006,
     "longitude": 43.6092801,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_620",
-    "name": "а/с Балахна",
-    "latitude": 56.494957,
-    "longitude": 43.609591,
     "routes": ["58"]
   },
   {
@@ -5040,94 +5026,10 @@
     "routes": ["58"]
   },
   {
-    "id": "stop_721",
-    "name": "Политехнический колледж",
-    "latitude": 56.500062,
-    "longitude": 43.60443,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_722",
-    "name": "НиГРЭС",
-    "latitude": 56.504705,
-    "longitude": 43.601796,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_723",
-    "name": "Сретенская церковь",
-    "latitude": 56.51181,
-    "longitude": 43.59342,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_724",
-    "name": "Кубенцево",
-    "latitude": 56.516115,
-    "longitude": 43.583466,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_725",
-    "name": "Гриль",
-    "latitude": 56.51944,
-    "longitude": 43.57534,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_726",
-    "name": "Чапаева (Правдинск)",
-    "latitude": 56.521933,
-    "longitude": 43.568291,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_727",
-    "name": "Школа 11 (Правдинск)",
-    "latitude": 56.52494,
-    "longitude": 43.558476,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_728",
-    "name": "пл. Дзержинского (Правдинск)",
-    "latitude": 56.525888,
-    "longitude": 43.554189,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_729",
-    "name": "Правдинский радиозавод",
-    "latitude": 56.52122,
-    "longitude": 43.549129,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_730",
-    "name": "магазин Электротовары",
-    "latitude": 56.518273,
-    "longitude": 43.554911,
-    "routes": ["58"]
-  },
-  {
     "id": "stop_731",
     "name": "Оптика",
     "latitude": 56.5169135,
     "longitude": 43.558156,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_732",
-    "name": "Правдинская больница",
-    "latitude": 56.512556,
-    "longitude": 43.553339,
-    "routes": ["58"]
-  },
-  {
-    "id": "stop_733",
-    "name": "Правдинск (Олимпийская)",
-    "latitude": 56.509221,
-    "longitude": 43.551631,
     "routes": ["58"]
   },
   {
@@ -5668,5 +5570,2477 @@
     "latitude": 56.337884,
     "longitude": 44.165076,
     "routes": ["58"]
+  },
+  {
+    "id": "stop_811",
+    "name": "Тоннель Московского вокзала",
+    "latitude": 56.323292,
+    "longitude": 43.9457374,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_812",
+    "name": "площaдь Славы",
+    "latitude": 56.360674,
+    "longitude": 43.8624322,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_813",
+    "name": "Центр Сормово",
+    "latitude": 56.3492715,
+    "longitude": 43.8679807,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_814",
+    "name": "Тоннель Московского вокзала",
+    "latitude": 56.3228734,
+    "longitude": 43.9460179,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_815",
+    "name": "ст. Варя",
+    "latitude": 56.3378321,
+    "longitude": 43.8839672,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_816",
+    "name": "площaдь Славы",
+    "latitude": 56.3617139,
+    "longitude": 43.8616633,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_817",
+    "name": "Свободы",
+    "latitude": 56.3627316,
+    "longitude": 43.8573061,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_818",
+    "name": "Хальзовская",
+    "latitude": 56.3705407,
+    "longitude": 43.8422796,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_819",
+    "name": "КИМа",
+    "latitude": 56.3749305,
+    "longitude": 43.8353077,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_820",
+    "name": "Ясная",
+    "latitude": 56.3825383,
+    "longitude": 43.7931005,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_821",
+    "name": "Ужгородская",
+    "latitude": 56.3896285,
+    "longitude": 43.752036,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_822",
+    "name": "посёлoк Дубравный",
+    "latitude": 56.3888632,
+    "longitude": 43.7396841,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_823",
+    "name": "Ужгородская",
+    "latitude": 56.3897253,
+    "longitude": 43.7529802,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_824",
+    "name": "Ясная",
+    "latitude": 56.3823437,
+    "longitude": 43.7939548,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_825",
+    "name": "КИМа",
+    "latitude": 56.3738534,
+    "longitude": 43.8362206,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_826",
+    "name": "Хальзовская",
+    "latitude": 56.3710076,
+    "longitude": 43.8413025,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_827",
+    "name": "Свободы",
+    "latitude": 56.3625283,
+    "longitude": 43.8579771,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_828",
+    "name": "Центр Сормово",
+    "latitude": 56.3496158,
+    "longitude": 43.8678837,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_829",
+    "name": "метро Бурнаковская",
+    "latitude": 56.3257253,
+    "longitude": 43.912363,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_830",
+    "name": "Сормовское шоссе",
+    "latitude": 56.3303585,
+    "longitude": 43.9018638,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_831",
+    "name": "метро Буревестник",
+    "latitude": 56.3336603,
+    "longitude": 43.8934021,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_832",
+    "name": "ст. Варя",
+    "latitude": 56.3372795,
+    "longitude": 43.8846049,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_833",
+    "name": "метро Буревестник",
+    "latitude": 56.3329975,
+    "longitude": 43.8945007,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_834",
+    "name": "Сормовское шоссе",
+    "latitude": 56.3300132,
+    "longitude": 43.9024068,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_835",
+    "name": "метро Бурнаковская",
+    "latitude": 56.3254706,
+    "longitude": 43.9126994,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_836",
+    "name": "Завод 70-летия Победы",
+    "latitude": 56.3277898,
+    "longitude": 43.9074768,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_837",
+    "name": "Нижний Новг. (ТПУ Канавинский)",
+    "latitude": 56.3195602,
+    "longitude": 43.930958,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_838",
+    "name": "Дубравная",
+    "latitude": 56.3890941,
+    "longitude": 43.7374181,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_839",
+    "name": "Курсовая база",
+    "latitude": 56.3884685,
+    "longitude": 43.7168426,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_840",
+    "name": "Курсовая база",
+    "latitude": 56.3881888,
+    "longitude": 43.7176795,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_841",
+    "name": "Дачная (Б.Козино)",
+    "latitude": 56.3915442,
+    "longitude": 43.6913616,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_842",
+    "name": "Дачная (Б.Козино)",
+    "latitude": 56.3903392,
+    "longitude": 43.6946979,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_843",
+    "name": "селo Лукино",
+    "latitude": 56.4379385,
+    "longitude": 43.629978,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_844",
+    "name": "селo Лукино",
+    "latitude": 56.4382209,
+    "longitude": 43.6297164,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_845",
+    "name": "Рогожино",
+    "latitude": 56.4463065,
+    "longitude": 43.6331756,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_846",
+    "name": "Рогожино",
+    "latitude": 56.4462472,
+    "longitude": 43.6328692,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_847",
+    "name": "Пыра (Лукино)",
+    "latitude": 56.4523233,
+    "longitude": 43.6295618,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_848",
+    "name": "Пыра (Лукино)",
+    "latitude": 56.4523667,
+    "longitude": 43.6300363,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_849",
+    "name": "Новое кладбище",
+    "latitude": 56.4582497,
+    "longitude": 43.6242802,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_850",
+    "name": "Новое кладбище",
+    "latitude": 56.4583075,
+    "longitude": 43.6245349,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_851",
+    "name": "Старое кладбище",
+    "latitude": 56.4713925,
+    "longitude": 43.612563,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_852",
+    "name": "Старое кладбище",
+    "latitude": 56.4715881,
+    "longitude": 43.6125791,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_853",
+    "name": "Челюскинцев (Балахна)",
+    "latitude": 56.4800696,
+    "longitude": 43.6037023,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_854",
+    "name": "Челюскинцев (Балахна)",
+    "latitude": 56.4802559,
+    "longitude": 43.6038608,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_856",
+    "name": "Детская поликлиника (Балахна)",
+    "latitude": 56.4886174,
+    "longitude": 43.6016042,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_857",
+    "name": "Школа 6 (Балахна)",
+    "latitude": 56.4913006,
+    "longitude": 43.6092801,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_860",
+    "name": "a\/c Балахна",
+    "latitude": 56.49456,
+    "longitude": 43.6088738,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_861",
+    "name": "Политехнический колледж",
+    "latitude": 56.4993372,
+    "longitude": 43.6051721,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_864",
+    "name": "НиГРЭС",
+    "latitude": 56.505142,
+    "longitude": 43.6012564,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_868",
+    "name": "Кубенцево",
+    "latitude": 56.5158362,
+    "longitude": 43.5836107,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_870",
+    "name": "Гриль",
+    "latitude": 56.5191185,
+    "longitude": 43.5756734,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_872",
+    "name": "Чапаева (Правдинск)",
+    "latitude": 56.5215412,
+    "longitude": 43.5690696,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_876",
+    "name": "пл. Дзержинского (Правдинск)",
+    "latitude": 56.5257725,
+    "longitude": 43.5545704,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_877",
+    "name": "Правдинский радиозавод",
+    "latitude": 56.521609,
+    "longitude": 43.5490019,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_878",
+    "name": "Правдинский радиозавод",
+    "latitude": 56.5208304,
+    "longitude": 43.549257,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_879",
+    "name": "магазин Электротовары",
+    "latitude": 56.5186437,
+    "longitude": 43.5543898,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_880",
+    "name": "магазин Электротовары",
+    "latitude": 56.5179019,
+    "longitude": 43.5554317,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_881",
+    "name": "Оптика",
+    "latitude": 56.5169135,
+    "longitude": 43.558156,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_882",
+    "name": "Правдинская больница",
+    "latitude": 56.5125242,
+    "longitude": 43.5531367,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_886",
+    "name": "Правдинск",
+    "latitude": 56.5272929,
+    "longitude": 43.5512916,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_887",
+    "name": "Правдинск",
+    "latitude": 56.5271645,
+    "longitude": 43.5508783,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_888",
+    "name": "Автостaнция Заволжье",
+    "latitude": 56.6443472,
+    "longitude": 43.3931644,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_889",
+    "name": "посёлoк Дубравный",
+    "latitude": 56.389113,
+    "longitude": 43.7370431,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_890",
+    "name": "Курсовая база",
+    "latitude": 56.3885029,
+    "longitude": 43.716983,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_891",
+    "name": "Красный мыс",
+    "latitude": 56.408844,
+    "longitude": 43.6473396,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_892",
+    "name": "Птицефабрика",
+    "latitude": 56.4211399,
+    "longitude": 43.6329017,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_893",
+    "name": "Рогожино",
+    "latitude": 56.4464488,
+    "longitude": 43.6331492,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_894",
+    "name": "Новое кладбище",
+    "latitude": 56.4575736,
+    "longitude": 43.6251484,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_896",
+    "name": "Поворот",
+    "latitude": 56.4659198,
+    "longitude": 43.5489473,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_897",
+    "name": "Победы (Гидроторф)",
+    "latitude": 56.4655714,
+    "longitude": 43.5410351,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_903",
+    "name": "Совхозная",
+    "latitude": 56.4677209,
+    "longitude": 43.5550819,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_904",
+    "name": "Новое кладбище",
+    "latitude": 56.4572454,
+    "longitude": 43.6253684,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_905",
+    "name": "Рогожино",
+    "latitude": 56.4461044,
+    "longitude": 43.6329563,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_906",
+    "name": "Птицефабрика",
+    "latitude": 56.4208608,
+    "longitude": 43.6331535,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_907",
+    "name": "Красный мыс",
+    "latitude": 56.4093021,
+    "longitude": 43.6467258,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_908",
+    "name": "Курсовая база",
+    "latitude": 56.3884395,
+    "longitude": 43.7174856,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_909",
+    "name": "Завод 70-летия Победы",
+    "latitude": 56.3287259,
+    "longitude": 43.9057274,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_910",
+    "name": "Хлебозавод (Балахна)",
+    "latitude": 56.4866403,
+    "longitude": 43.5787243,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_911",
+    "name": "Хлебозавод (Балахна)",
+    "latitude": 56.4864567,
+    "longitude": 43.5786921,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_913",
+    "name": "Синякова",
+    "latitude": 56.4871053,
+    "longitude": 43.5906869,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_916",
+    "name": "Главная",
+    "latitude": 56.537982,
+    "longitude": 43.5364473,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_917",
+    "name": "Главная",
+    "latitude": 56.5377809,
+    "longitude": 43.53634,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_918",
+    "name": "Автост. Балахна",
+    "latitude": 56.4948014,
+    "longitude": 43.6101254,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_919",
+    "name": "Школа 6",
+    "latitude": 56.491397,
+    "longitude": 43.609159,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_921",
+    "name": "ЖДО",
+    "latitude": 56.4872479,
+    "longitude": 43.5889461,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_923",
+    "name": "Мясокомбинат",
+    "latitude": 56.4810523,
+    "longitude": 43.5695082,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_925",
+    "name": "Харенка",
+    "latitude": 56.4678362,
+    "longitude": 43.5548748,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_927",
+    "name": "Садовая",
+    "latitude": 56.469343,
+    "longitude": 43.5442918,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_928",
+    "name": "Центральная",
+    "latitude": 56.4725451,
+    "longitude": 43.5403554,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_929",
+    "name": "Горького",
+    "latitude": 56.4763579,
+    "longitude": 43.5355435,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_930",
+    "name": "2-й Поселок",
+    "latitude": 56.4761295,
+    "longitude": 43.5284298,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_931",
+    "name": "Горького",
+    "latitude": 56.476165,
+    "longitude": 43.5356194,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_932",
+    "name": "Центральная",
+    "latitude": 56.4723977,
+    "longitude": 43.5398786,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_933",
+    "name": "Садовая",
+    "latitude": 56.4694686,
+    "longitude": 43.5440333,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_934",
+    "name": "Поворот",
+    "latitude": 56.4658861,
+    "longitude": 43.5495972,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_937",
+    "name": "Мясокомбинат",
+    "latitude": 56.4808732,
+    "longitude": 43.5695033,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_939",
+    "name": "ЖДО",
+    "latitude": 56.487106,
+    "longitude": 43.590686,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_940",
+    "name": "Детская поликлиника",
+    "latitude": 56.4880605,
+    "longitude": 43.6007988,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_942",
+    "name": "Автост. Балахна",
+    "latitude": 56.4949149,
+    "longitude": 43.609052,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_943",
+    "name": "ЦКК",
+    "latitude": 56.480638,
+    "longitude": 43.6229968,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_944",
+    "name": "Урицкого",
+    "latitude": 56.4854317,
+    "longitude": 43.6186232,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_945",
+    "name": "пл. Минина",
+    "latitude": 56.4917807,
+    "longitude": 43.6133035,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_946",
+    "name": "Автостанция",
+    "latitude": 56.4952362,
+    "longitude": 43.6086819,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_948",
+    "name": "НиГРЭС",
+    "latitude": 56.5042706,
+    "longitude": 43.6023177,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_953",
+    "name": "Школа им. Ленина",
+    "latitude": 56.5248326,
+    "longitude": 43.559274,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_954",
+    "name": "пл. Дзержинского",
+    "latitude": 56.5260423,
+    "longitude": 43.5539551,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_958",
+    "name": "Олимпийская",
+    "latitude": 56.5089499,
+    "longitude": 43.5517761,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_959",
+    "name": "Олимпийская",
+    "latitude": 56.5092997,
+    "longitude": 43.5517464,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_960",
+    "name": "Правдинская ЦРБ",
+    "latitude": 56.5125025,
+    "longitude": 43.5535096,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_965",
+    "name": "Школа им. Ленина",
+    "latitude": 56.524527,
+    "longitude": 43.5595519,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_969",
+    "name": "Сретенская церковь",
+    "latitude": 56.5116157,
+    "longitude": 43.5934561,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_973",
+    "name": "пл. Минина",
+    "latitude": 56.4912381,
+    "longitude": 43.61294,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_974",
+    "name": "Урицкого",
+    "latitude": 56.4854862,
+    "longitude": 43.6184155,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_975",
+    "name": "Пожарского",
+    "latitude": 56.4850475,
+    "longitude": 43.5690663,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_976",
+    "name": "Магазин",
+    "latitude": 56.4852026,
+    "longitude": 43.5625026,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_977",
+    "name": "Горшиха",
+    "latitude": 56.4838784,
+    "longitude": 43.5528483,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_978",
+    "name": "пер. Некрасова",
+    "latitude": 56.480917,
+    "longitude": 43.5430583,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_979",
+    "name": "Сергеевка",
+    "latitude": 56.4835715,
+    "longitude": 43.5367306,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_980",
+    "name": "Федотиха",
+    "latitude": 56.4871416,
+    "longitude": 43.5331384,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_981",
+    "name": "Радищева",
+    "latitude": 56.4899837,
+    "longitude": 43.544105,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_982",
+    "name": "Рускомтранс",
+    "latitude": 56.4923156,
+    "longitude": 43.5494724,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_983",
+    "name": "Радищева",
+    "latitude": 56.4901542,
+    "longitude": 43.5438231,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_984",
+    "name": "Федотиха",
+    "latitude": 56.4871771,
+    "longitude": 43.5329882,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_985",
+    "name": "Сергеевка",
+    "latitude": 56.4834861,
+    "longitude": 43.5366402,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_986",
+    "name": "пер. Некрасова",
+    "latitude": 56.4808655,
+    "longitude": 43.5426669,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_987",
+    "name": "Горшиха",
+    "latitude": 56.4837583,
+    "longitude": 43.5535491,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_988",
+    "name": "Магазин",
+    "latitude": 56.4850831,
+    "longitude": 43.562412,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_989",
+    "name": "Пожарского",
+    "latitude": 56.4849721,
+    "longitude": 43.5690715,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_991",
+    "name": "Синякова",
+    "latitude": 56.4901083,
+    "longitude": 43.5846172,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_992",
+    "name": "Некрасова",
+    "latitude": 56.4932573,
+    "longitude": 43.5856171,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_993",
+    "name": "ПКФ Луидор",
+    "latitude": 56.4950815,
+    "longitude": 43.5809011,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_994",
+    "name": "Елизарова",
+    "latitude": 56.4969126,
+    "longitude": 43.5751548,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_995",
+    "name": "Первомайского",
+    "latitude": 56.49409,
+    "longitude": 43.5584028,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_996",
+    "name": "Рускомтранс",
+    "latitude": 56.4938163,
+    "longitude": 43.5514794,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_997",
+    "name": "Первомайского",
+    "latitude": 56.4939594,
+    "longitude": 43.5577277,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_998",
+    "name": "Елизарова",
+    "latitude": 56.4968625,
+    "longitude": 43.5752335,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_999",
+    "name": "ПКФ Луидор",
+    "latitude": 56.4950248,
+    "longitude": 43.5807539,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1000",
+    "name": "Некрасова",
+    "latitude": 56.4930858,
+    "longitude": 43.5857821,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1001",
+    "name": "Синякова",
+    "latitude": 56.4900394,
+    "longitude": 43.584523,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1002",
+    "name": "По требованию",
+    "latitude": 56.5345064,
+    "longitude": 43.5479164,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1004",
+    "name": "Юбилейная",
+    "latitude": 56.5198091,
+    "longitude": 43.5634054,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1005",
+    "name": "Юбилейная",
+    "latitude": 56.5200832,
+    "longitude": 43.563525,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1007",
+    "name": "Победы",
+    "latitude": 56.5334052,
+    "longitude": 43.5411157,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1008",
+    "name": "Главная",
+    "latitude": 56.5377306,
+    "longitude": 43.5366189,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1009",
+    "name": "Кузница",
+    "latitude": 56.5436323,
+    "longitude": 43.5290297,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1010",
+    "name": "Могильцы",
+    "latitude": 56.5487477,
+    "longitude": 43.5236476,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1011",
+    "name": "Постниково-1",
+    "latitude": 56.5514719,
+    "longitude": 43.5203353,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1012",
+    "name": "Постниково-2",
+    "latitude": 56.553899,
+    "longitude": 43.514947,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1013",
+    "name": "Школа",
+    "latitude": 56.5637127,
+    "longitude": 43.4906175,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1014",
+    "name": "Трестьяны",
+    "latitude": 56.5682513,
+    "longitude": 43.4830514,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1015",
+    "name": "Липовки",
+    "latitude": 56.5720263,
+    "longitude": 43.4499733,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1016",
+    "name": "Трестьяны",
+    "latitude": 56.5682549,
+    "longitude": 43.4825855,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1017",
+    "name": "Постниково-2",
+    "latitude": 56.5542734,
+    "longitude": 43.5127171,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1018",
+    "name": "Постниково-1",
+    "latitude": 56.5514811,
+    "longitude": 43.52005,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1019",
+    "name": "Могильцы",
+    "latitude": 56.5480914,
+    "longitude": 43.5239681,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1020",
+    "name": "Кузница",
+    "latitude": 56.5432385,
+    "longitude": 43.52902,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1021",
+    "name": "Главная",
+    "latitude": 56.5378918,
+    "longitude": 43.5362113,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1022",
+    "name": "Победы",
+    "latitude": 56.5332038,
+    "longitude": 43.5408571,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1023",
+    "name": "Полимертех",
+    "latitude": 56.4615446,
+    "longitude": 43.5283433,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1024",
+    "name": "Административная",
+    "latitude": 56.463473,
+    "longitude": 43.5355192,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1025",
+    "name": "Победы",
+    "latitude": 56.465563,
+    "longitude": 43.5417114,
+    "routes": ["174"]
+  },
+
+  {
+    "id": "stop_1027",
+    "name": "Административная",
+    "latitude": 56.4635307,
+    "longitude": 43.5351223,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1028",
+    "name": "Постниково",
+    "latitude": 56.5472981,
+    "longitude": 43.5176933,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1029",
+    "name": "Постниково",
+    "latitude": 56.5473011,
+    "longitude": 43.5181975,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1030",
+    "name": "Шишкино",
+    "latitude": 56.5420577,
+    "longitude": 43.5016537,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1031",
+    "name": "Шишкино",
+    "latitude": 56.5419838,
+    "longitude": 43.501997,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1032",
+    "name": "Совхоз",
+    "latitude": 56.5380944,
+    "longitude": 43.464151,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1033",
+    "name": "Совхоз",
+    "latitude": 56.5379495,
+    "longitude": 43.4644246,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1034",
+    "name": "Истомино",
+    "latitude": 56.5333675,
+    "longitude": 43.4550154,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1035",
+    "name": "Истомино",
+    "latitude": 56.5334592,
+    "longitude": 43.4554124,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1036",
+    "name": "Городок",
+    "latitude": 56.52985,
+    "longitude": 43.457129,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1037",
+    "name": "Городок",
+    "latitude": 56.5300157,
+    "longitude": 43.4574401,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1038",
+    "name": "Сады-1",
+    "latitude": 56.5197543,
+    "longitude": 43.4557933,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1039",
+    "name": "Сады-1",
+    "latitude": 56.5197129,
+    "longitude": 43.4560347,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1040",
+    "name": "Сады-2",
+    "latitude": 56.5138471,
+    "longitude": 43.4445173,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1041",
+    "name": "Сады-2",
+    "latitude": 56.5138886,
+    "longitude": 43.4442866,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1042",
+    "name": "Сады-3",
+    "latitude": 56.5102361,
+    "longitude": 43.4408855,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1043",
+    "name": "Сады-3",
+    "latitude": 56.5103367,
+    "longitude": 43.4406066,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1044",
+    "name": "Гриденино",
+    "latitude": 56.5063286,
+    "longitude": 43.4253716,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1045",
+    "name": "Гриденино",
+    "latitude": 56.5061688,
+    "longitude": 43.4256506,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1046",
+    "name": "Рылово",
+    "latitude": 56.4968751,
+    "longitude": 43.427335,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1047",
+    "name": "Рылово",
+    "latitude": 56.4969225,
+    "longitude": 43.4275603,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1048",
+    "name": "Каданово",
+    "latitude": 56.4844425,
+    "longitude": 43.4239179,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1049",
+    "name": "Каданово",
+    "latitude": 56.4844781,
+    "longitude": 43.4241486,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1050",
+    "name": "Замятино",
+    "latitude": 56.4759761,
+    "longitude": 43.4083664,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1051",
+    "name": "Медиков",
+    "latitude": 56.5226099,
+    "longitude": 43.5458457,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1052",
+    "name": "Медиков",
+    "latitude": 56.5224531,
+    "longitude": 43.5456741,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1053",
+    "name": "ст. Правдинск",
+    "latitude": 56.5188783,
+    "longitude": 43.5398483,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1054",
+    "name": "ст. Правдинск",
+    "latitude": 56.5188428,
+    "longitude": 43.5402668,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1055",
+    "name": "Кожанова",
+    "latitude": 56.5192394,
+    "longitude": 43.53531,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1056",
+    "name": "Кожанова",
+    "latitude": 56.5191003,
+    "longitude": 43.5353905,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1057",
+    "name": "Строительная",
+    "latitude": 56.5206036,
+    "longitude": 43.5293555,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1058",
+    "name": "Строительная",
+    "latitude": 56.5205829,
+    "longitude": 43.5291302,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1059",
+    "name": "Магазин (Правдинск)",
+    "latitude": 56.5222962,
+    "longitude": 43.5292697,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1060",
+    "name": "Магазин (Правдинск)",
+    "latitude": 56.522169,
+    "longitude": 43.529098,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1061",
+    "name": "Крюковка",
+    "latitude": 56.5249919,
+    "longitude": 43.5264587,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1062",
+    "name": "Самойловка",
+    "latitude": 56.5085488,
+    "longitude": 43.5278535,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1063",
+    "name": "Самойловка",
+    "latitude": 56.5085281,
+    "longitude": 43.5281163,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1064",
+    "name": "Бушуевка (Самойловка)",
+    "latitude": 56.5067431,
+    "longitude": 43.531276,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1065",
+    "name": "Ефременко-2",
+    "latitude": 56.5104462,
+    "longitude": 43.5354817,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1066",
+    "name": "Ефременко-2",
+    "latitude": 56.51039,
+    "longitude": 43.5352349,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1067",
+    "name": "Ефременко",
+    "latitude": 56.5155401,
+    "longitude": 43.5378098,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1068",
+    "name": "Ефременко",
+    "latitude": 56.5156644,
+    "longitude": 43.5375631,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1069",
+    "name": "Челюскинцев",
+    "latitude": 56.4800674,
+    "longitude": 43.6037385,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1070",
+    "name": "Челюскинцев",
+    "latitude": 56.480257,
+    "longitude": 43.6038995,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1071",
+    "name": "Старое кладбище",
+    "latitude": 56.4698873,
+    "longitude": 43.6140543,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1072",
+    "name": "Старое кладбище",
+    "latitude": 56.4699554,
+    "longitude": 43.6141938,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1073",
+    "name": "Новое кладбище",
+    "latitude": 56.4573688,
+    "longitude": 43.6250621,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1074",
+    "name": "Новое кладбище",
+    "latitude": 56.4577423,
+    "longitude": 43.6250997,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1075",
+    "name": "Пыра",
+    "latitude": 56.4523057,
+    "longitude": 43.6295843,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1076",
+    "name": "Пыра",
+    "latitude": 56.4525339,
+    "longitude": 43.629654,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1077",
+    "name": "Рогожино",
+    "latitude": 56.4460856,
+    "longitude": 43.6328298,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1078",
+    "name": "Рогожино",
+    "latitude": 56.446305,
+    "longitude": 43.6333716,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1079",
+    "name": "Лукино",
+    "latitude": 56.43818,
+    "longitude": 43.6297023,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1080",
+    "name": "Лукино",
+    "latitude": 56.437919,
+    "longitude": 43.6299598,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1081",
+    "name": "Птицефабрика",
+    "latitude": 56.4206638,
+    "longitude": 43.6331892,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1082",
+    "name": "Птицефабрика",
+    "latitude": 56.4211059,
+    "longitude": 43.6330283,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1083",
+    "name": "Первое мая",
+    "latitude": 56.4151418,
+    "longitude": 43.6529839,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1084",
+    "name": "Реал-Инвест",
+    "latitude": 56.4529875,
+    "longitude": 43.4840906,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1085",
+    "name": "Реал-Инвест",
+    "latitude": 56.4528689,
+    "longitude": 43.4843159,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1086",
+    "name": "Шурлово",
+    "latitude": 56.4531891,
+    "longitude": 43.4047401,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1087",
+    "name": "Шурлово",
+    "latitude": 56.4531595,
+    "longitude": 43.4044772,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1088",
+    "name": "Бабье",
+    "latitude": 56.4558541,
+    "longitude": 43.4067142,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1089",
+    "name": "Бабье",
+    "latitude": 56.4558392,
+    "longitude": 43.4064513,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1090",
+    "name": "Чуркино",
+    "latitude": 56.4652289,
+    "longitude": 43.4225392,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1091",
+    "name": "Чуркино",
+    "latitude": 56.4649562,
+    "longitude": 43.4220994,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1092",
+    "name": "посёлoк 1 мая",
+    "latitude": 56.4157817,
+    "longitude": 43.6392188,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1093",
+    "name": "посёлoк 1 мая",
+    "latitude": 56.4155265,
+    "longitude": 43.6391008,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1094",
+    "name": "Мебельная фабрика",
+    "latitude": 56.4761356,
+    "longitude": 43.6079764,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1095",
+    "name": "Мебельная фабрика",
+    "latitude": 56.4757825,
+    "longitude": 43.6078906,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1096",
+    "name": "Липовки",
+    "latitude": 56.5802104,
+    "longitude": 43.4724391,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1097",
+    "name": "Ляпуниха",
+    "latitude": 56.5911289,
+    "longitude": 43.4643817,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1098",
+    "name": "Шеляухово",
+    "latitude": 56.6091116,
+    "longitude": 43.4448767,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1099",
+    "name": "Шеляухово",
+    "latitude": 56.6088046,
+    "longitude": 43.4446621,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1100",
+    "name": "Хлебозавод",
+    "latitude": 56.6281501,
+    "longitude": 43.4153402,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1101",
+    "name": "Хлебозавод",
+    "latitude": 56.6278915,
+    "longitude": 43.4153402,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1104",
+    "name": "Ветеринарная клиника",
+    "latitude": 56.4747159,
+    "longitude": 43.5649431,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1105",
+    "name": "Ветеринарная клиника",
+    "latitude": 56.4739515,
+    "longitude": 43.5645998,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1106",
+    "name": "Галанино",
+    "latitude": 56.6774618,
+    "longitude": 43.4658521,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1107",
+    "name": "ГПАТ",
+    "latitude": 56.6745652,
+    "longitude": 43.4654641,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1108",
+    "name": "ул. Крупинова",
+    "latitude": 56.6694356,
+    "longitude": 43.4668453,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1109",
+    "name": "Республиканская улица",
+    "latitude": 56.6661078,
+    "longitude": 43.4674016,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1110",
+    "name": "Песочное",
+    "latitude": 56.6613692,
+    "longitude": 43.4694528,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1111",
+    "name": "Автост. Городец",
+    "latitude": 56.645413,
+    "longitude": 43.4707368,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1112",
+    "name": "Колхозная улица",
+    "latitude": 56.6453389,
+    "longitude": 43.4722383,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1113",
+    "name": "Стадион Спартак",
+    "latitude": 56.6407077,
+    "longitude": 43.4786198,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1114",
+    "name": "ул. Мелиораторов",
+    "latitude": 56.6397064,
+    "longitude": 43.4846532,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1115",
+    "name": "ПМК",
+    "latitude": 56.6410877,
+    "longitude": 43.4898355,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1116",
+    "name": "пос. Лесхоза",
+    "latitude": 56.6462845,
+    "longitude": 43.4893732,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1117",
+    "name": "Космическая улица",
+    "latitude": 56.6502829,
+    "longitude": 43.4895865,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1118",
+    "name": "Молодёжная улица",
+    "latitude": 56.6569844,
+    "longitude": 43.4853499,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1119",
+    "name": "ул. Крупинова",
+    "latitude": 56.6702688,
+    "longitude": 43.4670109,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1120",
+    "name": "ГПАТ",
+    "latitude": 56.6747268,
+    "longitude": 43.465694,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1121",
+    "name": "Галанино",
+    "latitude": 56.6781472,
+    "longitude": 43.4664693,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1122",
+    "name": "ул. Мира",
+    "latitude": 56.6577176,
+    "longitude": 43.4797055,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1123",
+    "name": "пос. Судоверфи",
+    "latitude": 56.6579626,
+    "longitude": 43.4709717,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1124",
+    "name": "Песочное",
+    "latitude": 56.6620125,
+    "longitude": 43.469597,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1125",
+    "name": "Республиканская улица",
+    "latitude": 56.6667225,
+    "longitude": 43.4676473,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1126",
+    "name": "пов. на Строчково",
+    "latitude": 56.6846413,
+    "longitude": 43.4672384,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1127",
+    "name": "Разъезд",
+    "latitude": 56.6879883,
+    "longitude": 43.4645108,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1128",
+    "name": "Сады",
+    "latitude": 56.6882511,
+    "longitude": 43.4534727,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1129",
+    "name": "Нечаиха",
+    "latitude": 56.6878272,
+    "longitude": 43.4459072,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1130",
+    "name": "Метеостанция",
+    "latitude": 56.6868822,
+    "longitude": 43.4360413,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1131",
+    "name": "Река Белая",
+    "latitude": 56.6862605,
+    "longitude": 43.4304861,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1132",
+    "name": "Пост. ДПС",
+    "latitude": 56.6849154,
+    "longitude": 43.4272184,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1133",
+    "name": "Пост. ДПС",
+    "latitude": 56.6848996,
+    "longitude": 43.4274511,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1134",
+    "name": "Река Белая",
+    "latitude": 56.6861583,
+    "longitude": 43.4305176,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1135",
+    "name": "Метеостанция",
+    "latitude": 56.6867654,
+    "longitude": 43.4370172,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1136",
+    "name": "Нечаиха",
+    "latitude": 56.6877009,
+    "longitude": 43.446089,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1137",
+    "name": "Сады",
+    "latitude": 56.688098,
+    "longitude": 43.4538976,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1138",
+    "name": "Разъезд",
+    "latitude": 56.6878153,
+    "longitude": 43.4628575,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1139",
+    "name": "пов. на Строчково",
+    "latitude": 56.6841765,
+    "longitude": 43.4668926,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1140",
+    "name": "пос. Судоверфи",
+    "latitude": 56.6574453,
+    "longitude": 43.4733128,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1141",
+    "name": "ул. Мира",
+    "latitude": 56.6575524,
+    "longitude": 43.4784144,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1142",
+    "name": "Молодёжная улица",
+    "latitude": 56.6558831,
+    "longitude": 43.4873999,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1143",
+    "name": "Космическая улица",
+    "latitude": 56.6497239,
+    "longitude": 43.4891706,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1144",
+    "name": "пос. Лесхоза",
+    "latitude": 56.6466041,
+    "longitude": 43.4897717,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1145",
+    "name": "Шлюз 13",
+    "latitude": 56.6755629,
+    "longitude": 43.4096283,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1146",
+    "name": "Гидроузел",
+    "latitude": 56.6408001,
+    "longitude": 43.4003436,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1147",
+    "name": "Металлснаб",
+    "latitude": 56.6374052,
+    "longitude": 43.4043403,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1148",
+    "name": "Кафе Лада",
+    "latitude": 56.6357341,
+    "longitude": 43.4063783,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1149",
+    "name": "Магазин Волга",
+    "latitude": 56.6315456,
+    "longitude": 43.4110129,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1150",
+    "name": "Хлебозавод",
+    "latitude": 56.6280929,
+    "longitude": 43.4149799,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1151",
+    "name": "Хлебозавод",
+    "latitude": 56.6281104,
+    "longitude": 43.4154396,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1152",
+    "name": "Магазин Волга",
+    "latitude": 56.6318092,
+    "longitude": 43.4111706,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1153",
+    "name": "Кафе Лада",
+    "latitude": 56.635328,
+    "longitude": 43.4070998,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1154",
+    "name": "Металлснаб",
+    "latitude": 56.6376821,
+    "longitude": 43.4043266,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1155",
+    "name": "Гидроузел",
+    "latitude": 56.6412801,
+    "longitude": 43.4003891,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1156",
+    "name": "Шлюз 13",
+    "latitude": 56.6751711,
+    "longitude": 43.409517,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1157",
+    "name": "ПМК",
+    "latitude": 56.6407952,
+    "longitude": 43.4895773,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1158",
+    "name": "ул. Мелиораторов",
+    "latitude": 56.6403114,
+    "longitude": 43.48126,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1159",
+    "name": "Стадион Спартак",
+    "latitude": 56.6413164,
+    "longitude": 43.4778518,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1160",
+    "name": "Загородняя",
+    "latitude": 56.4755505,
+    "longitude": 43.6266741,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1161",
+    "name": "Загородняя",
+    "latitude": 56.4755564,
+    "longitude": 43.6265346,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1162",
+    "name": "ЦКК",
+    "latitude": 56.480729,
+    "longitude": 43.6231604,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1163",
+    "name": "Правдинск",
+    "latitude": 56.526983,
+    "longitude": 43.549874,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1164",
+    "name": "Правдинск",
+    "latitude": 56.5270592,
+    "longitude": 43.5497086,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1165",
+    "name": "По требованию",
+    "latitude": 56.5345754,
+    "longitude": 43.5476509,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1166",
+    "name": "пос. Волжский Рейд",
+    "latitude": 56.5360545,
+    "longitude": 43.5509071,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1167",
+    "name": "Алёшино",
+    "latitude": 56.4190804,
+    "longitude": 43.6469999,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1168",
+    "name": "Алёшино",
+    "latitude": 56.4191872,
+    "longitude": 43.6471608,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1169",
+    "name": "Сады 1",
+    "latitude": 56.561376,
+    "longitude": 43.494527,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1170",
+    "name": "Сады 1",
+    "latitude": 56.5613192,
+    "longitude": 43.4943554,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1171",
+    "name": "Школа",
+    "latitude": 56.563616,
+    "longitude": 43.4903803,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1172",
+    "name": "метрo Канавинская",
+    "latitude": 56.3204161,
+    "longitude": 43.9273578,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1173",
+    "name": "метрo Канавинская",
+    "latitude": 56.3204875,
+    "longitude": 43.9265209,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1174",
+    "name": "а\/в Заволжье",
+    "latitude": 56.6441799,
+    "longitude": 43.3931637,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1175",
+    "name": "а\/в Заволжье",
+    "latitude": 56.6443864,
+    "longitude": 43.3930027,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1176",
+    "name": "ДСУ",
+    "latitude": 56.6249651,
+    "longitude": 43.4235048,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1177",
+    "name": "ДСУ",
+    "latitude": 56.6252838,
+    "longitude": 43.4236765,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1178",
+    "name": "Сады-2",
+    "latitude": 56.6162998,
+    "longitude": 43.4348989,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1179",
+    "name": "Сады-2",
+    "latitude": 56.615733,
+    "longitude": 43.4351349,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1180",
+    "name": "Смирино",
+    "latitude": 56.5991995,
+    "longitude": 43.4535456,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1181",
+    "name": "Смирино",
+    "latitude": 56.5991995,
+    "longitude": 43.4541035,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1182",
+    "name": "Ляпуниха",
+    "latitude": 56.591308,
+    "longitude": 43.4641457,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1183",
+    "name": "Ляпуниха",
+    "latitude": 56.5909418,
+    "longitude": 43.4641242,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1184",
+    "name": "Липовки",
+    "latitude": 56.5802242,
+    "longitude": 43.4722996,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1185",
+    "name": "Липовки",
+    "latitude": 56.5806496,
+    "longitude": 43.4724927,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1186",
+    "name": "Трестьяны",
+    "latitude": 56.5682268,
+    "longitude": 43.4826207,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1187",
+    "name": "Трестьяны",
+    "latitude": 56.5682268,
+    "longitude": 43.4830928,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1188",
+    "name": "Школа (Трестьяны)",
+    "latitude": 56.5635568,
+    "longitude": 43.4904742,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1189",
+    "name": "Школа (Трестьяны)",
+    "latitude": 56.563746,
+    "longitude": 43.4905386,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1190",
+    "name": "Сады (Трестьяны)",
+    "latitude": 56.5590636,
+    "longitude": 43.4982634,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1191",
+    "name": "Сады (Трестьяны)",
+    "latitude": 56.5592883,
+    "longitude": 43.4984565,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1192",
+    "name": "Постниково-1",
+    "latitude": 56.5539786,
+    "longitude": 43.5137558,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1193",
+    "name": "Постниково-1",
+    "latitude": 56.5539077,
+    "longitude": 43.5150647,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1194",
+    "name": "Постниково",
+    "latitude": 56.5514832,
+    "longitude": 43.5200429,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1195",
+    "name": "Постниково",
+    "latitude": 56.5515659,
+    "longitude": 43.520472,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1196",
+    "name": "д. Могильцы",
+    "latitude": 56.5480768,
+    "longitude": 43.5239482,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1197",
+    "name": "д. Могильцы",
+    "latitude": 56.5487628,
+    "longitude": 43.5237122,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1198",
+    "name": "Кузницы",
+    "latitude": 56.5432387,
+    "longitude": 43.5289907,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1199",
+    "name": "Кузницы",
+    "latitude": 56.5436291,
+    "longitude": 43.5289907,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1200",
+    "name": "Главная (Ваняты)",
+    "latitude": 56.5377375,
+    "longitude": 43.5363722,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1201",
+    "name": "Главная (Ваняты)",
+    "latitude": 56.5376665,
+    "longitude": 43.5368013,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1208",
+    "name": "ул. Чапаева",
+    "latitude": 56.5222587,
+    "longitude": 43.5675716,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1211",
+    "name": "Гриль",
+    "latitude": 56.5197375,
+    "longitude": 43.574996,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1213",
+    "name": "Кубенцево",
+    "latitude": 56.5163874,
+    "longitude": 43.5833001,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1215",
+    "name": "Сретенская церковь",
+    "latitude": 56.5120899,
+    "longitude": 43.5933423,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1218",
+    "name": "Политехнический колледж",
+    "latitude": 56.5008407,
+    "longitude": 43.6036205,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1221",
+    "name": "платф. Могилицы",
+    "latitude": 56.5448093,
+    "longitude": 43.5099363,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1222",
+    "name": "платф. Могилицы",
+    "latitude": 56.5450518,
+    "longitude": 43.5112023,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1223",
+    "name": "Паруново",
+    "latitude": 56.497806,
+    "longitude": 43.3826709,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1224",
+    "name": "Паруново",
+    "latitude": 56.4977646,
+    "longitude": 43.3829498,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1225",
+    "name": "пов. на Тычинино",
+    "latitude": 56.4937255,
+    "longitude": 43.3752358,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1226",
+    "name": "пов. на Тычинино",
+    "latitude": 56.4938618,
+    "longitude": 43.3756971,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1227",
+    "name": "Старцево",
+    "latitude": 56.4856444,
+    "longitude": 43.3237052,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1228",
+    "name": "Старцево",
+    "latitude": 56.4856444,
+    "longitude": 43.3241343,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1229",
+    "name": "Бурцево",
+    "latitude": 56.4745058,
+    "longitude": 43.2979131,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1230",
+    "name": "Бурцево",
+    "latitude": 56.4744584,
+    "longitude": 43.2981706,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1231",
+    "name": "Сонино",
+    "latitude": 56.4717563,
+    "longitude": 43.2672071,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1232",
+    "name": "Сонино",
+    "latitude": 56.4715785,
+    "longitude": 43.2675934,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1233",
+    "name": "Конево",
+    "latitude": 56.4550648,
+    "longitude": 43.2028985,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_1234",
+    "name": "Центр Сормова",
+    "latitude": 56.349448,
+    "longitude": 43.868298,
+    "routes": ["174"]
   }
 ]
