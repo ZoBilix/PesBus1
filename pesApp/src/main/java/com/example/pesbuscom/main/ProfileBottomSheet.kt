@@ -32,6 +32,7 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         val btnLogin: Button = view.findViewById(R.id.btn_login)
         val btnRegister: Button = view.findViewById(R.id.btn_register)
         val btnLogout: Button = view.findViewById(R.id.btn_logout)
+        val btnSettings: Button = view.findViewById(R.id.btn_settings)
 
         val context = requireContext()
         val isLoggedIn = TokenManager.isLoggedIn(context)
@@ -58,6 +59,11 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
 
         btnRegister.setOnClickListener {
             startActivity(Intent(context, RegisterActivity::class.java))
+            dismiss()
+        }
+
+        btnSettings.setOnClickListener {
+            startActivity(Intent(context, SettingsActivity::class.java))
             dismiss()
         }
 

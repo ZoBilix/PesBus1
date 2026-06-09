@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -15,6 +16,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 object SettingsManager {
     private val THEME_KEY = intPreferencesKey("theme")
+    private val DEVELOPER_MODE_KEY = booleanPreferencesKey("developer_mode")
 
     const val THEME_LIGHT = 0
     const val THEME_DARK = 1
@@ -44,6 +46,24 @@ object SettingsManager {
     suspend fun getTheme(context: Context): Int {
         return context.dataStore.data
             .map { preferences -> preferences[THEME_KEY] ?: THEME_SYSTEM }
+            .first()
+    }
+
+    suspend fun saveDeveloperMode(context: Context, enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[DEVELOPER_MODE_KEY] = enabled
+        }
+    }
+
+    fun getDeveloperModeFlow(context: Context): Flow<Boolean> {
+        return context.dataStore.data.map { preferences ->
+            preferences[DEVELOPER_MODE_KEY] ?: false
+        }
+    }
+
+    suspend fun isDeveloperModeEnabled(context: Context): Boolean {
+        return context.dataStore.data
+            .map { preferences -> preferences[DEVELOPER_MODE_KEY] ?: false }
             .first()
     }
 }

@@ -27,12 +27,13 @@ import com.example.pesbuscom.BusStop
 import com.example.pesbuscom.R
 import com.example.pesbuscom.models.Bus
 import com.example.pesbuscom.models.BustimeCityDb
+import java.io.Serializable
 import kotlin.math.round
 
 data class RouteMappingInfo(
     val display: String,
     val name: String
-)
+) : Serializable
 
 class RouteManager(
     private val context: Context,
@@ -94,7 +95,6 @@ class RouteManager(
         
         iconCache[cacheKey]?.let { return it }
 
-        // Возвращаем фиксированный оптимальный размер
         val size = 70 
         val bitmap = createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val centerX = size / 2f
@@ -269,7 +269,7 @@ class RouteManager(
                 setPoints(points)
                 outlinePaint.color = "#E91E63".toColorInt() 
                 outlinePaint.strokeWidth = 6f
-                title = "Маршрут №$name"
+                title = "Маршрут $name"
             }
             routeOverlay.add(polyline)
         }

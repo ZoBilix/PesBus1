@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -16,21 +15,46 @@
         app:navigationIcon="@drawable/ic_back"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <!-- Заголовок: Тема -->
-
-    <!-- Spinner для выбора темы (без обёртки!) -->
-
-    <!-- Разделитель -->
-
-    <!-- Кнопка "О приложении" -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_about"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="О приложении"
-        android:textAllCaps="false"
-        tools:layout_editor_absoluteX="-9dp"
-        tools:layout_editor_absoluteY="537dp" />
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_developer_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Режим разработчика"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Отображать техническую информацию (ID остановок)"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorOutlineVariant"
+            android:layout_marginVertical="8dp"/>
+
+        <!-- Кнопка "О приложении" -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_about"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="О приложении"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

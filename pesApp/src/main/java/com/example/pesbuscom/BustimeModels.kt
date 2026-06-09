@@ -1,12 +1,14 @@
 package com.example.pesbuscom
 
+import java.io.Serializable
+
 data class BusStop(
     val id: String,
     val name: String,
     val latitude: Double,
     val longitude: Double,
     val routes: List<String>
-)
+) : Serializable
 
 data class BusLocation(
     val deviceId: String,
@@ -17,7 +19,7 @@ data class BusLocation(
     val routeName: String,
     val speed: Int,
     val wheelchairAccessible: Boolean
-) {
+) : Serializable {
     companion object {
         fun fromCsvLine(line: String): BusLocation? {
             val fields = line.split(",").map { it.trim() }
@@ -45,7 +47,7 @@ data class BusSchedule(
     val stopId: String,
     val stopName: String,
     val buses: List<BusArrival>
-)
+) : Serializable
 
 data class BusArrival(
     val routeName: String,
@@ -53,4 +55,4 @@ data class BusArrival(
     val licensePlate: String,
     val estimatedMinutes: Int,
     val wheelchairAccessible: Boolean
-)
+) : Serializable

@@ -14,19 +14,16 @@
         android:layout_marginBottom="24dp"
         android:background="?attr/colorOutlineVariant" />
 
-    <!-- Блок аватара: Контейнер гарантирует, что иконка не сольется с фоном -->
     <FrameLayout
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal">
 
-        <!-- Синий круг (фон) -->
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_circle_blue" />
 
-        <!-- Иконка человечка (поверх круга, принудительно белая) -->
         <ImageView
             android:id="@+id/profile_avatar"
             android:layout_width="match_parent"
@@ -57,7 +54,6 @@
         android:textSize="14sp"
         android:textColor="?attr/colorOnSurfaceVariant" />
 
-    <!-- Кнопка Войти: Явно прописан синий цвет через backgroundTint -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
@@ -71,7 +67,6 @@
         android:textColor="@color/white"
         app:elevation="2dp" />
 
-    <!-- Кнопка Регистрация: Синяя обводка -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_register"
         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -85,11 +80,22 @@
         android:textColor="@color/blue" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_settings"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:text="Настройки"
+        android:textColor="@color/blue"
+        app:icon="@drawable/ic_settings"
+        app:iconTint="@color/blue" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_logout"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:text="Выйти из аккаунта"
         android:textColor="@color/error"
         android:visibility="gone" />

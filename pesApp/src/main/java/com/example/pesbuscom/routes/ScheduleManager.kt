@@ -4,22 +4,15 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
+import java.io.Serializable
 
-/**
- * Модель данных расписания.
- * @param routeNumber Номер маршрута (например, "57")
- * @param routeName Полное название направления (например, "ПМК - ОЛИМПИЙСКАЯ")
- * @param schedule Список времен отправления с конечной точки (базовое расписание)
- * @param stops Список ID остановок в порядке их следования
- * @param stopSchedules Карта, где ключ - ID остановки, а значение - список времен прибытия именно на эту остановку
- */
 data class BusSchedule(
     val routeNumber: String,
     val routeName: String,
     val schedule: List<String>,
     val stops: List<String>? = null,
     val stopSchedules: Map<String, List<String>>? = null
-)
+) : Serializable
 
 class ScheduleManager(private val context: Context) {
 

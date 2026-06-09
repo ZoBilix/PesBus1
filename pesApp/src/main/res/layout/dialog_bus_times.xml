@@ -1,60 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
     android:background="@drawable/bg_rounded_bottom_sheet">
 
-    <View
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:layout_gravity="center"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:id="@+id/tv_route_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/tv_route_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#757575"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"/>
-
-    <!-- Горизонтальная прокрутка -->
-    <HorizontalScrollView
+    <LinearLayout
+        android:id="@+id/drag_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:id="@+id/times_container"
+        android:orientation="vertical"
+        android:paddingVertical="12dp"
+        android:gravity="center"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+        <View android:layout_width="40dp" android:layout_height="4dp" android:background="#E0E0E0"/>
+        <TextView
+            android:id="@+id/tv_route_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp" />
-    </HorizontalScrollView>
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="12dp"/>
+        <TextView
+            android:id="@+id/tv_route_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#757575"/>
+    </LinearLayout>
 
-    <!-- Кнопка закрытия: Белая с фиолетовым текстом и обводкой -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_close_times"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Закрыть"
-        android:textColor="@color/purple_500"
-        app:backgroundTint="@android:color/white"
-        app:strokeColor="@color/white"
-        app:strokeWidth="1dp"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:padding="24dp">
+            <LinearLayout
+                android:id="@+id/times_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

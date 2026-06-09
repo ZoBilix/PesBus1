@@ -6132,6 +6132,13 @@
     "routes": ["174"]
   },
   {
+  "id": "stop_914",
+  "name": "Синякова",
+  "latitude": 56.487286,
+  "longitude": 43.589988,
+  "routes": ["174"]
+},
+  {
     "id": "stop_916",
     "name": "Главная",
     "latitude": 56.537982,
@@ -6385,14 +6392,14 @@
   },
   {
     "id": "stop_978",
-    "name": "пер. Некрасова",
+    "name": "Серегеевка-1",
     "latitude": 56.480917,
     "longitude": 43.5430583,
     "routes": ["174"]
   },
   {
     "id": "stop_979",
-    "name": "Сергеевка",
+    "name": "Сергеевка-2",
     "latitude": 56.4835715,
     "longitude": 43.5367306,
     "routes": ["174"]
@@ -6434,14 +6441,14 @@
   },
   {
     "id": "stop_985",
-    "name": "Сергеевка",
+    "name": "Сергеевка-2",
     "latitude": 56.4834861,
     "longitude": 43.5366402,
     "routes": ["174"]
   },
   {
     "id": "stop_986",
-    "name": "пер. Некрасова",
+    "name": "Серегеевка-1",
     "latitude": 56.4808655,
     "longitude": 43.5426669,
     "routes": ["174"]
@@ -6484,8 +6491,8 @@
   {
     "id": "stop_993",
     "name": "ПКФ Луидор",
-    "latitude": 56.4950815,
-    "longitude": 43.5809011,
+    "latitude": 56.496110,
+    "longitude": 43.578462,
     "routes": ["174"]
   },
   {
@@ -6526,8 +6533,83 @@
   {
     "id": "stop_999",
     "name": "ПКФ Луидор",
-    "latitude": 56.4950248,
-    "longitude": 43.5807539,
+    "latitude": 56.496028,
+    "longitude": 43.578249,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_999",
+    "name": "ПКФ Луидор",
+    "latitude": 56.496028,
+    "longitude": 43.578249,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_9901",
+    "name": "Канал",
+    "latitude": 56.494816,
+    "longitude":  43.567774,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_9902",
+    "name": "Школа №8",
+    "latitude": 56.494677,
+    "longitude": 43.567230,
+    "routes": ["174"]
+  },{
+  "id": "stop_9903",
+  "name": "Школа №8",
+  "latitude": 56.495076,
+  "longitude": 43.580892,
+  "routes": ["174"]
+},
+  {
+  "id": "stop_9904",
+  "name": "Магазин оптика",
+  "latitude": 56.516925,
+  "longitude": 43.558943,
+  "routes": ["174"]
+},
+  {
+    "id": "stop_90110",
+    "name": "Волжский рейд",
+    "latitude": 56.530461,
+    "longitude": 43.545022,
+    "routes": ["174"]
+  },{
+  "id": "stop_90111",
+  "name": "Волжский рейд",
+  "latitude": 56.530468,
+  "longitude": 43.545290,
+  "routes": ["174"]
+},
+  {
+  "id": "stop_9905",
+  "name": "Магазин Оптика",
+  "latitude": 56.516834,
+  "longitude": 43.559039,
+  "routes": ["174"]
+},
+  {
+    "id": "stop_9900",
+    "name": "Канал",
+    "latitude": 56.495039,
+    "longitude": 43.580736,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_8001",
+    "name": "Переезд",
+    "latitude": 56.484094,
+    "longitude": 43.535925,
+    "routes": ["174"]
+  },
+  {
+    "id": "stop_8000",
+    "name": "Переезд",
+    "latitude": 56.484156,
+    "longitude": 43.536060,
     "routes": ["174"]
   },
   {
