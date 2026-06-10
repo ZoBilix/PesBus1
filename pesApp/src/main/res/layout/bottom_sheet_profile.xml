@@ -75,29 +75,51 @@
         android:layout_marginTop="12dp"
         android:text="Регистрация"
         android:textSize="16sp"
+        app:backgroundTint="@color/blue"
         app:cornerRadius="16dp"
         app:strokeColor="@color/blue"
-        android:textColor="@color/blue" />
+        android:textColor="@color/white"
+        app:elevation="2dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_admin_panel"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:text="Панель администратора"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/blue"
+        android:textColor="@color/white"
+        app:elevation="2dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_settings"
-        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="Настройки"
-        android:textColor="@color/blue"
-        app:icon="@drawable/ic_settings"
-        app:iconTint="@color/blue" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/blue"
+        android:textColor="@color/white"
+        app:elevation="2dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_logout"
-        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         android:text="Выйти из аккаунта"
-        android:textColor="@color/error"
-        android:visibility="gone" />
+        app:backgroundTint="@color/error"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:elevation="2dp"/>
 
 </LinearLayout>

@@ -28,6 +28,17 @@
             android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_toggle_buses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_bus_only"
+            app:tint="?attr/colorOnPrimary"
+            app:backgroundTint="@color/gray"
+            app:fabSize="mini"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_my_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

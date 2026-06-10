@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".MyApplication"
@@ -21,6 +23,8 @@
         android:usesCleartextTraffic="true"
         android:configChanges="uiMode">
 
+        <receiver android:name=".main.NotificationReceiver" android:exported="false" />
+
         <!-- 1. MainActivity теперь LAUNCHER (стартовый экран) -->
         <activity
             android:name=".main.MainActivity"
@@ -33,7 +37,6 @@
             </intent-filter>
         </activity>
 
-        <!-- 2. LoginActivity теперь обычный экран (удален intent-filter) -->
         <activity
             android:name=".main.LoginActivity"
             android:exported="false"
@@ -50,6 +53,12 @@
         <activity
             android:name=".VerifyEmailActivity"
             android:exported="false"
+            android:theme="@style/Theme.MyApplication"/>
+            
+        <activity
+            android:name=".main.UserManagementActivity"
+            android:exported="false"
+            android:label="Управление пользователями"
             android:theme="@style/Theme.MyApplication"/>
 
     </application>

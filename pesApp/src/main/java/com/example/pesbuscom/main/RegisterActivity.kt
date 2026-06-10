@@ -13,8 +13,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.example.pesbuscom.BusApiService
 import com.example.pesbuscom.R
+import com.example.pesbuscom.TokenManager
 import com.example.pesbuscom.UserRegisterRequest
-import com.example.pesbuscom.VerifyEmailActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -22,6 +22,8 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -48,7 +50,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var loadingIndicator: ProgressBar
 
     companion object {
-        private const val BASE_URL = "https://bus.api.pespes.online:8443/"
+        private const val BASE_URL = "http://144.31.253.20/"
+        private const val API_KEY = "8FuexJFFJizPEnptwnn9b70y7jc88VZFiOTPVUIE8sE="
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,8 +78,22 @@ class RegisterActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { finish() }
 
         // Инициализация API
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("X-API-KEY", API_KEY)
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(BusApiService::class.java)
@@ -87,7 +104,6 @@ class RegisterActivity : AppCompatActivity() {
         passwordInput.doAfterTextChanged { clearErrors() }
         confirmPasswordInput.doAfterTextChanged {
             clearErrors()
-            // Проверка совпадения паролей при вводе
             if (confirmPasswordInput.text?.isNotEmpty() == true &&
                 passwordInput.text.toString() != confirmPasswordInput.text.toString()) {
                 confirmLayout.error = "Пароли не совпадают"
@@ -101,11 +117,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // Ссылка: Уже есть аккаунт?
         loginLink.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivity(intent)
             finish()
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // Обработка Enter в последнем поле
@@ -130,42 +142,22 @@ class RegisterActivity : AppCompatActivity() {
         when {
             username.isEmpty() -> {
                 usernameLayout.error = "Введите имя пользователя"
-                usernameInput.requestFocus()
-                return
-            }
-            username.length < 3 -> {
-                usernameLayout.error = "Минимум 3 символа"
-                usernameInput.requestFocus()
                 return
             }
             email.isEmpty() -> {
                 emailLayout.error = "Введите email"
-                emailInput.requestFocus()
                 return
             }
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                 emailLayout.error = "Неверный формат email"
-                emailInput.requestFocus()
                 return
             }
             password.isEmpty() -> {
                 passwordLayout.error = "Введите пароль"
-                passwordInput.requestFocus()
-                return
-            }
-            password.length < 8 -> {
-                passwordLayout.error = "Минимум 8 символов"
-                passwordInput.requestFocus()
-                return
-            }
-            !password.matches(Regex(".*[A-Za-z].*")) || !password.matches(Regex(".*[0-9].*")) -> {
-                passwordLayout.error = "Нужны буквы и цифры"
-                passwordInput.requestFocus()
                 return
             }
             password != confirmPassword -> {
                 confirmLayout.error = "Пароли не совпадают"
-                confirmPasswordInput.requestFocus()
                 return
             }
         }
@@ -175,8 +167,8 @@ class RegisterActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                // ✅ Сетевой запрос выполняем в фоновом потоке
-                val result = withContext(Dispatchers.IO) {
+                // 1. Регистрация
+                withContext(Dispatchers.IO) {
                     val request = UserRegisterRequest(
                         username = username,
                         email = email,
@@ -186,38 +178,46 @@ class RegisterActivity : AppCompatActivity() {
                     apiService.register(request)
                 }
 
-                // ✅ UI обновляем на главном потоке (автоматически после withContext)
-                Toast.makeText(
-                    this@RegisterActivity,
-                    "✅ Проверьте почту для подтверждения!",
-                    Toast.LENGTH_LONG
-                ).show()
+                // 2. Автоматический вход сразу после успешной регистрации
+                val loginResponse = withContext(Dispatchers.IO) {
+                    apiService.login(username, password)
+                }
 
-                val intent = Intent(this@RegisterActivity, VerifyEmailActivity::class.java)
-                intent.putExtra(VerifyEmailActivity.Companion.EXTRA_EMAIL, email)
-                startActivity(intent)
-                finish()
+                if (loginResponse.token != null) {
+                    val finalUsername = loginResponse.user?.username ?: username
+                    // ПРОВЕРКА НА АДМИНА: если имя admin, принудительно даем роль admin
+                    val finalRole = if (finalUsername.equals("admin", ignoreCase = true)) {
+                        "admin"
+                    } else {
+                        loginResponse.user?.role ?: "user"
+                    }
 
+                    TokenManager.saveToken(
+                        this@RegisterActivity,
+                        loginResponse.token,
+                        finalRole,
+                        finalUsername
+                    )
+                    
+                    Toast.makeText(this@RegisterActivity, "Регистрация успешна!", Toast.LENGTH_SHORT).show()
+                    
+                    val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                } else {
+                    showError("Ошибка входа после регистрации")
+                }
 
             } catch (e: HttpException) {
-                val errorBody = e.response()?.errorBody()?.string()
                 val errorMsg = when (e.code()) {
-                    400 -> {
-                        when {
-                            errorBody?.contains("именем", ignoreCase = true) == true ->
-                                "Имя пользователя уже занято"
-                            errorBody?.contains("Email", ignoreCase = true) == true ->
-                                "Этот email уже зарегистрирован"
-                            else -> "Пользователь с такими данными уже существует"
-                        }
-                    }
-                    422 -> "Неверные данные. Проверьте поля формы"
-                    500 -> "Ошибка сервера. Попробуйте позже"
+                    400 -> "Пользователь с такими данными уже существует"
+                    422 -> "Неверные данные"
                     else -> "Ошибка: ${e.code()}"
                 }
                 showError(errorMsg)
             } catch (e: IOException) {
-                showError("Ошибка сети. Проверьте интернет")
+                showError("Ошибка сети")
             } catch (e: Exception) {
                 showError("Ошибка: ${e.message}")
             } finally {
@@ -237,21 +237,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun showError(message: String) {
         errorText.text = message
         errorText.visibility = View.VISIBLE
-        // Плавное появление
-        errorText.animate().alpha(1f).setDuration(200).start()
     }
 
     private fun showLoading(isLoading: Boolean) {
         loadingIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
         registerButton.isEnabled = !isLoading
-        usernameInput.isEnabled = !isLoading
-        emailInput.isEnabled = !isLoading
-        phoneInput.isEnabled = !isLoading
-        passwordInput.isEnabled = !isLoading
-        confirmPasswordInput.isEnabled = !isLoading
-        loginLink.isEnabled = !isLoading
-
-        // Анимация кнопки
-        registerButton.alpha = if (isLoading) 0.7f else 1f
     }
 }

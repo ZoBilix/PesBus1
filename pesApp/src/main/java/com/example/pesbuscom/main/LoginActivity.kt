@@ -1,12 +1,10 @@
 package com.example.pesbuscom.main
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatTextView
@@ -20,6 +18,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,18 +43,15 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loadingIndicator: ProgressBar
 
     companion object {
-        private const val BASE_URL = "https://bus.api.pespes.online:8443/"
+        private const val BASE_URL = "http://144.31.253.20/"
+        private const val API_KEY = "8FuexJFFJizPEnptwnn9b70y7jc88VZFiOTPVUIE8sE="
         private const val PREFS_NAME = "app_prefs"
         private const val KEY_THEME = "is_dark_theme"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
-        // Применяем сохранённую тему
         applySavedTheme()
-
         setContentView(R.layout.activity_login)
 
         // Инициализация Views
@@ -70,53 +67,45 @@ class LoginActivity : AppCompatActivity() {
         errorText = findViewById(R.id.error_text)
         loadingIndicator = findViewById(R.id.loading_indicator)
 
-        // Инициализация API
+        // Настройка логирования и обязательного заголовка X-API-KEY
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("X-API-KEY", API_KEY)
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(BusApiService::class.java)
 
-        // Проверяем, авторизован ли пользователь
         if (TokenManager.isLoggedIn(this) && TokenManager.getRole(this) != "guest") {
             navigateToMain()
             finish()
             return
         }
 
-        // Валидация в реальном времени
         usernameInput.doAfterTextChanged { clearErrors() }
         passwordInput.doAfterTextChanged { clearErrors() }
 
-        // Кнопка: Войти
-        loginButton.setOnClickListener {
-            performLogin()
-        }
+        loginButton.setOnClickListener { performLogin() }
+        registerButton.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
-        // Кнопка: Регистрация
-        registerButton.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
-        }
-
-        // Кнопка: Гость
         guestButton.setOnClickListener {
-            TokenManager.saveToken(
-                context = this,
-                accessToken = "guest_token",
-                role = "guest",
-                username = "Гость"
-            )
-            Toast.makeText(this, "Вход как гость", Toast.LENGTH_SHORT).show()
+            TokenManager.saveToken(this, "guest_token", "guest", "Гость")
             navigateToMain()
             finish()
         }
 
-        // Ссылка: Забыли пароль?
-        forgotPassword.setOnClickListener {
-            Toast.makeText(this, "Восстановление пароля скоро будет доступно", Toast.LENGTH_SHORT).show()
-        }
-
-        // Обработка Enter в поле пароля
         passwordInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 performLogin()
@@ -127,36 +116,22 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ Применение сохранённой темы
     private fun applySavedTheme() {
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val isDarkTheme = prefs.getBoolean(KEY_THEME, false)
-
-        val mode = if (isDarkTheme) {
-            AppCompatDelegate.MODE_NIGHT_YES
-        } else {
-            AppCompatDelegate.MODE_NIGHT_NO
-        }
-
-        AppCompatDelegate.setDefaultNightMode(mode)
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
-
 
     private fun performLogin() {
         val username = usernameInput.text.toString().trim()
         val password = passwordInput.text.toString()
 
-        when {
-            username.isEmpty() -> {
-                usernameLayout.error = "Введите имя пользователя"
-                usernameInput.requestFocus()
-                return
-            }
-            password.isEmpty() -> {
-                passwordLayout.error = "Введите пароль"
-                passwordInput.requestFocus()
-                return
-            }
+        if (username.isEmpty() || password.isEmpty()) {
+            if (username.isEmpty()) usernameLayout.error = "Введите имя пользователя"
+            if (password.isEmpty()) passwordLayout.error = "Введите пароль"
+            return
         }
 
         showLoading(true)
@@ -164,43 +139,39 @@ class LoginActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = apiService.login(
-                    Uri.encode(username),
-                    password
-                )
+                val response = apiService.login(username, password)
 
-                TokenManager.saveToken(
-                    this@LoginActivity,
-                    response.access_token,
-                    response.role,
-                    username
-                )
+                // Сервер возвращает "token", а данные пользователя внутри объекта "user"
+                if (response.token != null) {
+                    val finalUsername = response.user?.username ?: username
+                    
+                    // ПРОВЕРКА НА АДМИНА: если имя "admin", принудительно даем роль admin
+                    val finalRole = if (finalUsername.equals("admin", ignoreCase = true)) {
+                        "admin"
+                    } else {
+                        response.user?.role ?: "user"
+                    }
 
-                Toast.makeText(
-                    this@LoginActivity,
-                    "Добро пожаловать, $username! 👋",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                navigateToMain()
-                finish()
+                    TokenManager.saveToken(
+                        this@LoginActivity,
+                        response.token,
+                        finalRole,
+                        finalUsername
+                    )
+                    navigateToMain()
+                    finish()
+                } else {
+                    showError("Ошибка: сервер не вернул токен")
+                }
 
             } catch (e: HttpException) {
                 when (e.code()) {
                     401 -> showError("Неверное имя пользователя или пароль")
-                    400 -> {
-                        val body = e.response()?.errorBody()?.string()
-                        if (body?.contains("деактивирован", ignoreCase = true) == true) {
-                            showError("Аккаунт деактивирован")
-                        } else {
-                            showError("Ошибка входа")
-                        }
-                    }
-                    500 -> showError("Ошибка сервера. Попробуйте позже")
+                    404 -> showError("Сервис авторизации недоступен (404)")
                     else -> showError("Ошибка: ${e.code()}")
                 }
             } catch (e: IOException) {
-                showError("Ошибка сети. Проверьте интернет")
+                showError("Ошибка сети. Проверьте соединение")
             } catch (e: Exception) {
                 showError("Ошибка: ${e.message}")
             } finally {
@@ -218,25 +189,11 @@ class LoginActivity : AppCompatActivity() {
     private fun showError(message: String) {
         errorText.text = message
         errorText.visibility = View.VISIBLE
-        errorText.animate()
-            .alpha(1f)
-            .setDuration(200)
-            .start()
     }
 
     private fun showLoading(isLoading: Boolean) {
         loadingIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
         loginButton.isEnabled = !isLoading
-        usernameInput.isEnabled = !isLoading
-        passwordInput.isEnabled = !isLoading
-        registerButton.isEnabled = !isLoading
-        guestButton.isEnabled = !isLoading
-
-        if (isLoading) {
-            loginButton.alpha = 0.7f
-        } else {
-            loginButton.alpha = 1f
-        }
     }
 
     private fun navigateToMain() {

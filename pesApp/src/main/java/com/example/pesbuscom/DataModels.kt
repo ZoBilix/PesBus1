@@ -10,9 +10,16 @@ data class UserRegisterRequest(
 )
 
 data class LoginResponse(
-    val access_token: String,
-    val token_type: String,
-    val role: String
+    val message: String?,
+    val token: String?,
+    val user: UserDataResponse?
+)
+
+data class UserDataResponse(
+    val id: Int?,
+    val username: String?,
+    val email: String?,
+    val role: String? = "user"
 )
 
 data class UserResponse(

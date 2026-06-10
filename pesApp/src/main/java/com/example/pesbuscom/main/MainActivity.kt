@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private lateinit var toolbar: Toolbar
     private lateinit var fabMyLocation: FloatingActionButton
+    private lateinit var fabToggleBuses: FloatingActionButton
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         private const val CITY_DB_URL = "https://sel.bustm.net/static/other/db/v8-mini/58-12.json"
         private const val MIN_ZOOM_FOR_STOPS = 14.0
         private const val API_KEY = "8FuexJFFJizPEnptwnn9b70y7jc88VZFiOTPVUIE8sE="
+        private const val SERVER_URL = "https://top4023177375.mwscdn.ru/"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         mapView = findViewById(R.id.map)
         fabMyLocation = findViewById(R.id.fab_my_location)
+        fabToggleBuses = findViewById(R.id.fab_toggle_buses)
         bottomNav = findViewById(R.id.bottom_navigation)
 
         setSupportActionBar(toolbar)
@@ -95,6 +98,7 @@ class MainActivity : AppCompatActivity() {
             .addInterceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
+                // Update header logic if necessary for the new server
                 if (original.url.host == "top4023177375.mwscdn.ru") {
                     requestBuilder.header("X-API-KEY", API_KEY)
                 }
@@ -103,7 +107,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://top4023177375.mwscdn.ru/")
+            .baseUrl(SERVER_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -169,6 +173,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         fabMyLocation.setOnClickListener { moveToCurrentLocation() }
+        
+        fabToggleBuses.setOnClickListener {
+            busesOverlay?.let { overlay ->
+                overlay.isEnabled = !overlay.isEnabled
+                mapView.invalidate()
+                
+                // Опционально: менять цвет кнопки в зависимости от состояния
+                if (overlay.isEnabled) {
+                    fabToggleBuses.backgroundTintList = ContextCompat.getColorStateList(this, R.color.blue)
+                } else {
+                    fabToggleBuses.backgroundTintList = ContextCompat.getColorStateList(this, R.color.gray)
+                }
+            }
+        }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         setupLocationCallback()
@@ -300,7 +318,10 @@ class MainActivity : AppCompatActivity() {
         stopsOverlay = FolderOverlay().apply { name = "Stops" }
         routeOverlay = FolderOverlay().apply { name = "Routes" }
         userLocationOverlay = FolderOverlay().apply { name = "UserLocation" }
-        busesOverlay = FolderOverlay().apply { name = "Buses" }
+        busesOverlay = FolderOverlay().apply { 
+            name = "Buses"
+            isEnabled = false // Скрыто по умолчанию при запуске
+        }
 
         mapView.overlays.add(routeOverlay)
         mapView.overlays.add(stopsOverlay)

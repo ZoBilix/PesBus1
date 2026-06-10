@@ -33,23 +33,33 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
         val btnRegister: Button = view.findViewById(R.id.btn_register)
         val btnLogout: Button = view.findViewById(R.id.btn_logout)
         val btnSettings: Button = view.findViewById(R.id.btn_settings)
+        val btnAdminPanel: Button = view.findViewById(R.id.btn_admin_panel)
 
         val context = requireContext()
         val isLoggedIn = TokenManager.isLoggedIn(context)
         val username = TokenManager.getUsername(context) ?: "Гость"
+        val role = TokenManager.getRole(context)
 
         if (isLoggedIn) {
             usernameTv.text = username
-            statusTv.text = "Вы авторизованы"
+            statusTv.text = "Вы авторизованы (${role})"
             btnLogin.visibility = View.GONE
             btnRegister.visibility = View.GONE
             btnLogout.visibility = View.VISIBLE
+            
+            // Показываем кнопку админки только если роль - admin
+            if (role == "admin") {
+                btnAdminPanel.visibility = View.VISIBLE
+            } else {
+                btnAdminPanel.visibility = View.GONE
+            }
         } else {
             usernameTv.text = "Гость"
             statusTv.text = "Вы используете гостевой доступ"
             btnLogin.visibility = View.VISIBLE
             btnRegister.visibility = View.VISIBLE
             btnLogout.visibility = View.GONE
+            btnAdminPanel.visibility = View.GONE
         }
 
         btnLogin.setOnClickListener {
@@ -64,6 +74,12 @@ class ProfileBottomSheet : BottomSheetDialogFragment() {
 
         btnSettings.setOnClickListener {
             startActivity(Intent(context, SettingsActivity::class.java))
+            dismiss()
+        }
+
+        btnAdminPanel.setOnClickListener {
+            // Переход в активность управления пользователями
+            startActivity(Intent(context, UserManagementActivity::class.java))
             dismiss()
         }
 

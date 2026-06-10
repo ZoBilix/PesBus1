@@ -10,7 +10,7 @@ object TokenManager {
     private const val KEY_USER_ROLE = "user_role"
     private const val KEY_USERNAME = "username"
 
-    fun saveToken(context: Context, accessToken: String, role: String, username: String) {
+    fun saveToken(context: Context, accessToken: String?, role: String?, username: String?) {
         val masterKey = MasterKey.Builder(context)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
@@ -27,7 +27,7 @@ object TokenManager {
             .putString(KEY_ACCESS_TOKEN, accessToken)
             .putString(KEY_USER_ROLE, role)
             .putString(KEY_USERNAME, username)
-            .apply()  // ← Важно: apply() для сохранения!
+            .apply()
     }
 
     fun getToken(context: Context): String? {
@@ -35,13 +35,17 @@ object TokenManager {
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
 
-        val prefs = EncryptedSharedPreferences.create(
-            context,
-            PREF_NAME,
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val prefs = try {
+             EncryptedSharedPreferences.create(
+                context,
+                PREF_NAME,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } catch (e: Exception) {
+            context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        }
 
         return prefs.getString(KEY_ACCESS_TOKEN, null)
     }
@@ -51,13 +55,17 @@ object TokenManager {
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
 
-        val prefs = EncryptedSharedPreferences.create(
-            context,
-            PREF_NAME,
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val prefs = try {
+            EncryptedSharedPreferences.create(
+                context,
+                PREF_NAME,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } catch (e: Exception) {
+            context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        }
 
         return prefs.getString(KEY_USER_ROLE, null)
     }
@@ -67,13 +75,17 @@ object TokenManager {
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
 
-        val prefs = EncryptedSharedPreferences.create(
-            context,
-            PREF_NAME,
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val prefs = try {
+            EncryptedSharedPreferences.create(
+                context,
+                PREF_NAME,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } catch (e: Exception) {
+            context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        }
 
         return prefs.getString(KEY_USERNAME, null)
     }
@@ -83,13 +95,17 @@ object TokenManager {
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
 
-        val prefs = EncryptedSharedPreferences.create(
-            context,
-            PREF_NAME,
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val prefs = try {
+            EncryptedSharedPreferences.create(
+                context,
+                PREF_NAME,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } catch (e: Exception) {
+            context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        }
 
         prefs.edit()
             .remove(KEY_ACCESS_TOKEN)
@@ -100,7 +116,6 @@ object TokenManager {
 
     fun isLoggedIn(context: Context): Boolean {
         val token = getToken(context)
-        // ✅ Проверяем, что токен есть и это не гостевой токен
         return token != null && token.isNotEmpty() && token != "guest_token"
     }
 }
