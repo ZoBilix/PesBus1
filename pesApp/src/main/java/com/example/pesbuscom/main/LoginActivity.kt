@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loadingIndicator: ProgressBar
 
     companion object {
-        private const val BASE_URL = "http://144.31.253.20/"
+        private const val BASE_URL = "https://top4023177375.mwscdn.ru/"
         private const val API_KEY = "8FuexJFFJizPEnptwnn9b70y7jc88VZFiOTPVUIE8sE="
         private const val PREFS_NAME = "app_prefs"
         private const val KEY_THEME = "is_dark_theme"
